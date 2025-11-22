@@ -27,7 +27,7 @@ You can tweak a few things in config.py
 * **verbose_warnings**: Silence llama_cpp warnings/messages. Keep this False
 
 #### **Bot settings**
-* **messages_to_keep_in_context**: Responses get slower and slower as the context grows. Without a GPU, you might get to 5-10 minutes per reply within 5-6 messages. You also might get an out of memory error if the context grows too big. To keep Jenbot responding quickly, you can keep only the most recent n messages with this variable. This includes the system prompt, which will always remain in the context. If you put 0, you'll only get the system prompt, essentially wiping Jenbot's memory after every response.
+* **messages_to_keep_in_context**: Responses get slower and slower as the context grows. Without a GPU, you might get to 5-10 minutes per reply within 5-6 messages. You also might get an out of memory error if the context grows too big. To keep Jenbot responding quickly, you can keep only the most recent n messages (from either party - not pairs) with this variable. This includes the system prompt, which will always remain in the context. If you put 0, you'll only get the system prompt, essentially wiping Jenbot's memory after every response.
 * **max_tokens_per_response**: Max length for Jenbot's replies. If you find the responses get cut off mid-sentence, try increasing this to 512, or adjust the system prompt to tell her to be more concise.
 * **temperature**, **top_p**, **top_k**: Higher values mean more creative, more varied, and less predictable responses. Go too high, however, and Jenbot will devolve into madness.
 
@@ -85,7 +85,7 @@ Say `exit` to quit.
 
 ## Running in a Docker container
 
-Run the instructions in the "Running locally", apart from `python chat.py`. 
+Run the instructions in the "Running locally" section, apart from `python chat.py`. 
 
 Build the container:
 
@@ -95,7 +95,7 @@ Run the container:
 
 `docker run -it jenbot:v1.0`
 
-Vim is installed in the docker so you can edit the config while the container is running if you wish. You'll need to commit your changes to persist them though.
+Vim is installed in the Docker container so you can edit the config while the container is running if you wish. You'll need to commit your changes to persist them though.
 
 Add the `--rm` flag to auto-remove the container when you exit it. Add the `--network none` flag to disable networking, including communication with the host machine and internet (although that is irrelevant for mk1.0 as there's no means for it to do so anyway).
 
