@@ -8,7 +8,7 @@ Jenbot Mk1 runs on CPU only, and in the terminal - no fancy-dancy UI to hog your
 
 ## Quick start
 
-```py
+```sh
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -32,8 +32,8 @@ You can tweak a few things in config.py
 * **temperature**, **top_p**, **top_k**: Higher values mean more creative, more varied, and less predictable responses. Go too high, however, and Jenbot will devolve into madness.
 
 #### **Bots**
-**bots**: Create your own bots with their own system prompts here. Jenbot is the default. I've added another one you can try if you dare.
-**bot**: Choose which bot from the bots dictionary you want to use. If you want a friendlier experience, change this to `jenbot` or make your own bot.
+* **bots**: Create your own bots with their own system prompts here.
+* **bot**: Choose which bot from the bots dictionary you want to use. Change this to `roastbot` if you want a more abrasive experience.
 
 ## Running locally (or in Codespaces)
 

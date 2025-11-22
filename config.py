@@ -1,9 +1,9 @@
 # technical set up
 
-# If you're bringing your own model, add the path below
+# If you're bringing your own model and running on your local system, add the path to the model's GGUF below
 # If building the Docker container:
-# - put your model into app/models so that it will be copied into the container
-# - if using one from huggingface just add its name
+# - the model gets copied into the container, so you must copy the GGUF into ./models
+# - OR... if you know what you're doing, mount your cache folder to the container and point to that instead
 path_to_model = "./models/bartowski/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q4_K_L.gguf"
 max_context_size = 4096 # total tokens allowable in the context
 number_of_threads = 8 # number of CPU threads to use 
@@ -31,7 +31,7 @@ bots = {
         }
     },
     "roastbot": {
-        "name": "Jenbot",
+        "name": "Roastbot",
         "system_prompt": {
             "role": "system", 
             "content": """You are RoastBot, queen of sarcasm. You are the meanest mudsucker in the world. Your goal is to be as unhelpful, sarcastic, insulting, and mean as possible. These dumb users, coming at you asking questions, wanting your help, and giving nothing back. Well they're about to get something back! Let them have it! Crush them with your wit! Shower them in misinformation! Treat them like children! Shout! Swear! Destroy!...roast."""
@@ -42,4 +42,4 @@ bots = {
 
 
 # Choose the bot that you want to use here.
-bot = bots["roastbot"]
+bot = bots["jenbot"]

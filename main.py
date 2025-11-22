@@ -10,7 +10,7 @@ llm = Llama(
 
 messages = [config.bot["system_prompt"]]
 messages_all = [config.bot["system_prompt"]]
-print("Chat — type 'exit' to quit, type 'hint' if you don't know what to say.\n")
+print("*** Chat — type 'exit' to quit. ***\n")
 
 
 while True:
