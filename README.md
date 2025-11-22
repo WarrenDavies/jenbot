@@ -41,7 +41,7 @@ You can tweak a few things in config.py
 
 Set up your Python environement and install dependencies:
 
-```py
+```sh
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -49,7 +49,7 @@ pip install -r requirements.txt
 
 ### Installing a model
 
-You can only use the Llama LLMs with Jenbot Mk1, and as this is CPU only you're probably looking at 1B or  3B 4-bit quantised models. 
+You can only use the Llama LLMs with Jenbot Mk1, and as this is CPU only you're probably looking at 1B or 3B 4-bit quantised models. 
 
 A 3B 4-bit quantised is installed by default. If this is too slow, or if you just want to try a different model:
 
@@ -57,6 +57,7 @@ A 3B 4-bit quantised is installed by default. If this is too slow, or if you jus
 2) Move the GGUF file into the `./models` folder (the Hugging Face CLI can do this automatically)
 3) Update `path_to_model` in `config.py` and point it to the GGUF file (e.g., `path_to_model = "./models/Llama-3.2-3B-Instruct-Q4_K_L.gguf"`)
 
+You have to put it in `./models` so that it can be copied into the Docker container (idea being, it will eventually be able to run shell commands and initial testing found it to be a little trigger-happy with the ol' `rm -rf`). But if you know what you're doing you can mount your model cache folder to the container.
 
 #### Examples:
 
@@ -92,9 +93,11 @@ Build the container:
 
 Run the container:
 
-`docker run -it --rm --network none jenbot:v1.0 /bin/bash`
+`docker run -it jenbot:v1.0`
 
 Vim is installed in the docker so you can edit the config while the container is running if you wish. You'll need to commit your changes to persist them though.
+
+Add the `--rm` flag to auto-remove the container when you exit it. Add the `--network none` flag to disable networking, including communication with the host machine and internet (although that is irrelevant for mk1.0 as there's no means for it to do so anyway).
 
 Then run Jenbot once you're inside the container:
 
