@@ -12,8 +12,10 @@ verbose_warnings = False # Silence llama_cpp warnings/messages
 
 # Bot response config
 
-messages_to_keep_in_context = 4 # without a GPU, responses will get slower and slower as the context grows. You also might get an out of memory error if the context grows too big.
-# To keep Jenbot responding quickly, you can keep only the most recent n messages with this variable. This includes the system prompt, which will always remain in the context. If you put 0, you'll only get the system prompt, essentially wiping Jenbot's memory after every response.
+messages_to_keep_in_context = 4 # Keep only the most recent n messages in the context (from either party, not pairs of messages), including the system prompt.
+# This is because without a GPU, responses will get slower and slower as the context grows. You also might get an out of memory error if the context grows too big.
+# To keep Jenbot responding quickly, we can continually trim the context. This means Jenbot will forget older messages. You can experiment with this to see what your system can handle before it slows to snail pace of you run out of RAM.
+# If you put 0, you'll only get the system prompt, essentially wiping Jenbot's memory after every response.
 max_tokens_per_response = 256 # Max length for Jenbot's replies. If you find the responses get cut off mid-sentence, try increasing this to 512, or adjust the system prompt to tell the bot to be more concise
 # You can adjust the bot's behaviour with these settings. Higher values mean more creative, more varied, and less predictable responses. Go too high, however, and Jenbot will devolve into madness.
 temperature = 0.7 
