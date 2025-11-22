@@ -11,7 +11,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/ .
+COPY . .
 
-CMD ["python", "./app/chat.py"]
+CMD ["python", "main.py"]
 
