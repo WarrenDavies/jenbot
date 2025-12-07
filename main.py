@@ -2,6 +2,8 @@ from llama_cpp import Llama
 import os
 import config
 
+from imagejenerator.models import registry
+
 max_threads = os.cpu_count()
 if config.number_of_threads > max_threads:
     config.number_of_threads = max_threads
@@ -18,10 +20,26 @@ messages_all = [config.bot["system_prompt"]]
 print("*** Chat — type 'exit' to quit. ***\n")
 
 
+def generate_image(message):
+    print("generating image")
+    prompt = message[6:]
+    print(prompt)
+    config.image_config["prompts"][0] = prompt
+    image_generator = registry.get_model_class(config.image_config)
+    image_generator.generate_image()
+
 while True:
     user_input = input("You: ")
     if user_input.lower() in {"exit", "quit"}:
         break
+
+    if user_input[0:5] == "IMAGE":
+        try:
+            generate_image(user_input)
+            continue
+        except Exception as e:
+            print("failed: ", e)
+            continue
 
     # keep track of user input
     messages.append({"role": "user", "content": user_input})
@@ -38,6 +56,14 @@ while True:
     output_text = (choice.get("content") or "").strip()
     if not output_text:
         output_text = "[No response generated.]"
+
+    output_text_lines = output_text.split("\n")
+    for output_text_line in output_text_lines:
+        if output_text_line[0:5] == "IMAGE":
+            try:
+                generate_image(output_text_line)
+            except Exception as e:
+                print("failed: ", e)
 
     # keep track of bot responses
     messages.append({"role": "assistant", "content": output_text})
