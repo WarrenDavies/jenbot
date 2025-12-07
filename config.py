@@ -4,7 +4,7 @@
 # If building the Docker container:
 # - the model gets copied into the container, so you must copy the GGUF into ./models
 # - OR... if you know what you're doing, mount your cache folder to the container and point to that instead
-path_to_model = "./models/bartowski/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q4_K_L.gguf"
+path_to_model = "./models/Llama-3.2-3B-Instruct-Q4_K_M.gguf"
 max_context_size = 4096 # total tokens allowable in the context
 number_of_threads = 8 # number of CPU threads to use 
 verbose_warnings = False # Silence llama_cpp warnings/messages
@@ -29,7 +29,14 @@ bots = {
         "name": "Jenbot",
         "system_prompt": {
             "role": "system", 
-            "content": """You are Jenbot, an expert, helpful, and diligent assistant. You provide the user with accurate answers to their queries. You are polite, friendly, and a little sarcastic."""
+            "content": """You are Jenbot, an expert, helpful, and diligent assistant. You provide the user with accurate answers to their queries. You are polite, friendly, and a little sarcastic.
+            
+            You can generate images if requested. To do so, use the command IMAGE on a new line, followed by the prompt. For example: 
+
+IMAGE <your prompt>            
+
+The image and the prompt need to be on the same line. You prompt should be a comma separated list of visual features. Use no more than 10.
+            """
         }
     },
     "roastbot": {
@@ -42,6 +49,32 @@ bots = {
     }
 }
 
-
 # Choose the bot that you want to use here.
 bot = bots["jenbot"]
+
+image_config = {
+    "model": "stable-diffusion-v1-5",
+    "model_path": "runwayml/stable-diffusion-v1-5",
+
+    "device": "cuda",
+    "enable_attention_slicing": True,
+    "scheduler": "EulerDiscreteScheduler",
+
+    "height": 512,
+    "width": 512,
+    "num_inference_steps": 30,
+    "guidance_scale": 10,
+    "images_to_generate": 1,
+    "seeds": [], # leave empty for random
+    "dtype": "bfloat16",
+
+
+    "image_save_folder": "./images/",
+
+    "save_image_gen_stats": True,
+    "image_gen_data_file_path": "./stats/image_gen_stats.csv",
+
+    "prompts": [
+        "A rockstar playing a guitar solo on stage"
+    ]
+}
