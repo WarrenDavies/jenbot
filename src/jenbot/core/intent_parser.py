@@ -47,17 +47,18 @@ User: "Show me disk usage"
         last_message = message["messages"][-1]["content"]
 
         if "weather" in last_message:
-            action = {
+            intent = {
                 "action": "weather",
+                "parameters": {
+                    "location": "London"
+                }
+            }
+        else:
+            intent = {
+                "action": "None",
                 "parameters": {}
             }
 
-        else:
-            action = {
-                "action": "chat",
-                "parameters": message
-            }
-
-        return action
+        return intent
 
 

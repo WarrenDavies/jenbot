@@ -19,7 +19,7 @@ orchestrator = Orchestrator(core_config)
 def read_item(message: dict):
     last_message = message["messages"][-1]["content"]
     current_time_string = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    response = orchestrator.handle_input(message)
+    response = orchestrator.process(message)
     response = f"""
     The time is: {current_time_string}
     Your input was: {last_message}
