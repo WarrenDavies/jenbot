@@ -2,8 +2,6 @@ from llama_cpp import Llama
 import os
 import config
 
-from imagejenerator.models import registry
-
 max_threads = os.cpu_count()
 if config.number_of_threads > max_threads:
     config.number_of_threads = max_threads
