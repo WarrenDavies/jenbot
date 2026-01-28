@@ -8,13 +8,12 @@ Jenbot Mk1 runs on CPU only, and in the terminal - no fancy-dancy UI to hog your
 
 ## Quick start
 
+Run Fast API to set up the endpoint
 ```sh
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-hf download bartowski/Llama-3.2-3B-Instruct-GGUF --include="Llama-3.2-3B-Instruct-Q4_K_L.gguf" --local-dir ./models/bartowski/Llama-3.2-3B-Instruct-GGUF
-python main.py
+fastapi dev src/jenbot/api/main.py 
 ```
+
+
 
 ## Config
 
