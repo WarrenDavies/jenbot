@@ -44,9 +44,8 @@ User: "Show me disk usage"
         """
         Primary method to parse input and return the identified action.
         """
-        last_message = message["messages"][-1]["content"]
 
-        if "weather" in last_message:
+        if "weather" in message:
             intent = {
                 "action": "weather",
                 "parameters": {

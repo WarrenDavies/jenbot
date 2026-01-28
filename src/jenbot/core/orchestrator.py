@@ -2,10 +2,10 @@ import textwrap
 
 from jenerationutils.storage.storage_manager import StorageManager
 
-from src.jenbot.storage.record_manager import RecordManager
-from src.jenbot.core.intent_parser import IntentParser
-from src.jenbot.tools import registry as tools_registry
-from src.jenbot.chat.response_generator import ResponseGenerator
+from jenbot.storage.record_manager import RecordManager
+from jenbot.core.intent_parser import IntentParser
+from jenbot.tools import registry as tools_registry
+from jenbot.chat.response_generator import ResponseGenerator
 
 
 class Orchestrator():
@@ -31,10 +31,21 @@ class Orchestrator():
         return tool_response
 
 
-    def process(self, message):
+    def flag_role(self, message, role):
+        message["role"] = role
+        return message
 
-        ## TODO: (now) Save user message to messages table here
-        self.record_manager.save_record(message, "messages", self.storage_manager)
+
+    def process(self, message):
+        # save the incoming message
+        message["role"] = "user"
+        data_row = self.record_manager.create_record(
+            message,
+            "messages",
+            self.storage_manager
+        )
+        self.storage_manager.data_connections["messages"].append_data(data_row)
+
         intent = self.intent_parser.get_action(message)
         ## TODO: (later) Save decision on intent to decisions table here
         tool_response = self.use_tool(intent) # TODO: (now) Create Toolkit class
