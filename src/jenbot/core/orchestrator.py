@@ -48,12 +48,6 @@ class Orchestrator():
         # save the incoming message
         message["role"] = "user"
         self.save_record(message, "messages")
-        # data_row = self.record_manager.create_record(
-        #     message,
-        #     "messages",
-        #     self.storage_manager
-        # )
-        # self.storage_manager.data_connections["messages"].append_data(data_row)
 
         intent = self.intent_parser.get_action(message["content"])
         ## TODO: (later) Save decision on intent to decisions table here
