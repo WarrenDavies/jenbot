@@ -22,6 +22,7 @@ llama-cpp-python = ">=0.3.16,<0.4.0"
 textjenerator = {path = "../text-jenerator"}
 fastapi = {extras = ["standard"], version = "^0.128.0"}
 requests = "^2.32.5"
+jenerationutils = {path = "../jeneration-utils", develop = true}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
