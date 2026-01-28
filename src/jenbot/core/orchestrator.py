@@ -4,7 +4,7 @@ from jenerationutils.storage.storage_manager import StorageManager
 
 from jenbot.storage.record_manager import RecordManager
 from jenbot.core.intent_parser import IntentParser
-from jenbot.tools import registry as tools_registry
+from jenbot.tools.toolkit import Toolkit
 from jenbot.chat.response_generator import ResponseGenerator
 
 
@@ -20,29 +20,16 @@ class Orchestrator():
         self.response_generator = ResponseGenerator()
         self.storage_manager = StorageManager(config)
         self.record_manager = RecordManager(self.storage_manager, config)
-
-
-    def use_tool(self, intent):
-        ### TODO: Move to its own class
-        tool_response = None
-        if intent["action"] and (intent["action"] in tools_registry.get_tools_list()):
-            ToolClass = tools_registry.get_class(intent["action"])
-            tool = ToolClass()
-            tool_response = tool.run(intent["parameters"])
-        return tool_response
-
-
-    def flag_role(self, message, role):
-        message["role"] = role
-        return message
+        self.toolkit = Toolkit()
 
 
     def process(self, message):
         message["role"] = "user"
         self.record_manager.save_record(message, "messages")
+
         intent = self.intent_parser.get_action(message["content"])
 
-        tool_response = self.use_tool(intent) # TODO: (now) Create Toolkit class
+        tool_response = self.toolkit.use_tool(intent)
         if tool_response:
             tool_response_system_prompt = self.response_generator.create_tool_use_prompt(
                 tool_response
