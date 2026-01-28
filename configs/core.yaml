@@ -5,7 +5,9 @@ data_connections:
   messages:
     output_data_type: "csv"
     data_source_location: "./data/messages.csv"
-
+  intent:
+    output_data_type: "csv"
+    data_source_location: "./data/intent.csv"
 
 user:
   location:

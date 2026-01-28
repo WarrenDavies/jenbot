@@ -25,9 +25,11 @@ class Orchestrator():
 
     def process(self, message):
         message["role"] = "user"
-        self.record_manager.save_record(message, "messages")
+        message_id = self.record_manager.save_record(message, "messages")
 
         intent = self.intent_parser.get_action(message["content"])
+        intent["message_id"] = message_id
+        intent_id = self.record_manager.save_record(intent, "intent")
 
         tool_response = self.toolkit.use_tool(intent)
         if tool_response:

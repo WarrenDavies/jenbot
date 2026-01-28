@@ -45,13 +45,17 @@ class RecordManager():
         
         data_row = record.create_data_row()
         
-        return data_row
+        primary_key_name = SchemaClass.get_primary_key_name()
+        primary_key_value = record.completed_generation_record.__dict__[primary_key_name]
+
+        return data_row, primary_key_value
 
     
     def save_record(self, data, dataset_name):
-        data_row = self.create_record(
+        data_row, primary_key = self.create_record(
             data,
             dataset_name
         )
         self.storage_manager.data_connections[dataset_name].append_data(data_row)
+        return primary_key
         

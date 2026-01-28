@@ -26,3 +26,4 @@ class ResponseGenerator:
             "role": "assistant",
             "content": reponse
         }
+        
