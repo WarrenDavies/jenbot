@@ -1,3 +1,12 @@
+data_connections:
+  conversations:
+    output_data_type: "csv"
+    data_source_location: "./data/conversations.csv"
+  messages:
+    output_data_type: "csv"
+    data_source_location: "./data/messages.csv"
+
+
 user:
   location:
     long: 51.53

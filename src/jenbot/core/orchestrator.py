@@ -1,5 +1,8 @@
 import textwrap
 
+from jenerationutils.storage.storage_manager import StorageManager
+
+from jenbot.storage.record_manager import RecordManager
 from jenbot.core.intent_parser import IntentParser
 from jenbot.tools import registry as tools_registry
 from jenbot.chat.response_generator import ResponseGenerator
@@ -15,9 +18,11 @@ class Orchestrator():
         """
         self.intent_parser = IntentParser(config=None)
         self.response_generator = ResponseGenerator()
-
+        self.storage_manager = StorageManager(config)
+        self.record_manager = RecordManager(config)
 
     def use_tool(self, intent):
+        ### TODO: Move to its own class
         tool_response = None
         if intent["action"] and (intent["action"] in tools_registry.get_tools_list()):
             ToolClass = tools_registry.get_class(intent["action"])
@@ -27,11 +32,14 @@ class Orchestrator():
 
 
     def process(self, message):
+
+        ## TODO: (now) Save user message to messages table here
         intent = self.intent_parser.get_action(message)
-        tool_response = self.use_tool(intent)
+        ## TODO: (later) Save decision on intent to decisions table here
+        tool_response = self.use_tool(intent) # TODO: (now) Create Toolkit class
+        ## TODO: (later) Save tool response to table here
         response = self.response_generator.generate(message, tool_response)
+        ## TODO: (now) Save assistant message to messages table here
 
         return response
-
-
-    
+   
