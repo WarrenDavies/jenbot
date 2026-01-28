@@ -36,20 +36,33 @@ class Orchestrator():
         return message
 
 
-    def process(self, message):
-        # save the incoming message
-        message["role"] = "user"
+    def save_record(self, data, dataset_name):
         data_row = self.record_manager.create_record(
-            message,
-            "messages",
+            data,
+            dataset_name,
             self.storage_manager
         )
         self.storage_manager.data_connections["messages"].append_data(data_row)
 
-        intent = self.intent_parser.get_action(message)
+    def process(self, message):
+        # save the incoming message
+        message["role"] = "user"
+        self.save_record(message, "messages")
+        # data_row = self.record_manager.create_record(
+        #     message,
+        #     "messages",
+        #     self.storage_manager
+        # )
+        # self.storage_manager.data_connections["messages"].append_data(data_row)
+
+        intent = self.intent_parser.get_action(message["content"])
         ## TODO: (later) Save decision on intent to decisions table here
+
         tool_response = self.use_tool(intent) # TODO: (now) Create Toolkit class
         ## TODO: (later) Save tool response to table here
+
+
+
         response = self.response_generator.generate(message, tool_response)
         ## TODO: (now) Save assistant message to messages table here
 
