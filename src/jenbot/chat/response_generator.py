@@ -18,10 +18,11 @@ class ResponseGenerator:
         return system_prompt
 
 
-    def generate(self, message, tool_response = None):
+    def generate(self, prompt):
 
-        if tool_response:
-            tool_use_prompt = self.create_tool_use_prompt(tool_response)
-            message["messages"].append(tool_use_prompt)
+        reponse = "beep beep boop boop I'm replying"
         
-        return message
+        return {
+            "role": "assistant",
+            "content": reponse
+        }

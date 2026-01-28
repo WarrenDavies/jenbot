@@ -7,9 +7,9 @@ from jenerationutils.jenerationrecord import registry as recorder_registry
 class RecordManager():
 
 
-    def __init__(self, config = None):
+    def __init__(self, storage_manager, config = None):
         self.config = config
-
+        self.storage_manager = storage_manager
     
     def add_primary_key_field(self, data, SchemaClass):
         pk_name = SchemaClass.get_primary_key_name()
@@ -29,7 +29,7 @@ class RecordManager():
         return data
 
 
-    def create_record(self, data, dataset_name, storage_manager):
+    def create_record(self, data, dataset_name):
         
         SchemaClass = get_schema_class(dataset_name)
 
@@ -46,4 +46,12 @@ class RecordManager():
         data_row = record.create_data_row()
         
         return data_row
+
+    
+    def save_record(self, data, dataset_name):
+        data_row = self.create_record(
+            data,
+            dataset_name
+        )
+        self.storage_manager.data_connections[dataset_name].append_data(data_row)
         
