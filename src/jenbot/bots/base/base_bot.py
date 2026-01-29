@@ -26,7 +26,6 @@ class BaseBot(ABC):
 
 
     @abstractmethod
-    def generate_response(self, prompt):
+    def generate():
 
         pass
-    

@@ -7,6 +7,7 @@ from jenbot.core.intent_parser import IntentParser
 from jenbot.tools.toolkit import Toolkit
 from jenbot.chat.response_generator import ResponseGenerator
 
+from jenbot.bots.jenbot.jenbot import Jenbot
 
 class Orchestrator():
     """
@@ -21,6 +22,7 @@ class Orchestrator():
         self.storage_manager = StorageManager(config)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
+        self.bot = Jenbot(config["bot"])
 
 
     def process(self, message):
@@ -38,7 +40,7 @@ class Orchestrator():
             )
             self.record_manager.save_record(tool_response_system_prompt, "messages")
 
-        response = self.response_generator.generate(message)
+        response = self.bot.generate(message)
         self.record_manager.save_record(response, "messages")
 
         return response

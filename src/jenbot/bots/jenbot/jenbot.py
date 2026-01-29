@@ -7,7 +7,7 @@ class Jenbot(BaseBot):
 
 
     def __init__(self, config):
-        __super__
+        super().__init__(config)
         self.config = config
 
     
@@ -28,8 +28,7 @@ class Jenbot(BaseBot):
         return tool_use_system_prompt
 
 
-    @abstractmethod
-    def generate_response(self, prompt):
+    def generate(self, prompt):
 
         reponse = "beep beep boop boop I'm replying"
         
@@ -37,4 +36,3 @@ class Jenbot(BaseBot):
             "role": "assistant",
             "content": reponse
         }
-        
