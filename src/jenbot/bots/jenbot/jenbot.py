@@ -13,18 +13,13 @@ class Jenbot(BaseBot):
 
 
     def get_last_two_records(self, csv_file_path):
-        # Initialize a list to store the last two records
         last_two_records = []
 
-        # Open the CSV file and read the last two rows
         with open(csv_file_path, mode='r', newline='', encoding='utf-8') as file:
-            # Create a CSV reader object
             csv_reader = csv.DictReader(file)
 
-            # Iterate through the CSV rows and collect the last two
             for row in csv_reader:
                 last_two_records.append({"role": row.get("role", ""), "content": row.get("content", "")})
-                # Keep only the last two records
                 if len(last_two_records) > 2:
                     last_two_records.pop(0)
 

@@ -14,21 +14,7 @@ with open("configs/core.yaml", 'r') as stream:
 
 orchestrator = Orchestrator(core_config)
 
-
 print("*** Chat — type 'exit' to quit. ***\n")
-
-def send_prompt(payload, url):
-    resp = requests.post(
-        url, 
-        json=payload, 
-        headers=headers, 
-        timeout=10
-    )
-    resp.raise_for_status()
-    data = resp.json()
-    return data
-
-
 while True:
     user_input = input("You: ")
     if user_input.lower() in {"exit", "quit"}:
