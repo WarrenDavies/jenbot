@@ -48,7 +48,7 @@ Available actions and examples:
 Do not infer parameters using your knowledge - report only what is mentioned specifically in the user input."""
     
 
-    def create_router_prompt(self, message):
+    def create_prompt(self, message):
         
         system_prompt = {"role": "system", "content": self._get_system_prompt()}
         user_input = {"role": "user", "content": message}
@@ -60,7 +60,7 @@ Do not infer parameters using your knowledge - report only what is mentioned spe
         """
         Primary method to parse input and return the identified action.
         """
-        prompt = self.create_router_prompt(message)
+        prompt = self.create_prompt(message)
         self.generator.config["messages"] = prompt
         generator_output = self.generator.generate()
         response = generator_output.batch[0].data
