@@ -11,6 +11,7 @@ class RecordManager():
         self.config = config
         self.storage_manager = storage_manager
     
+    
     def add_primary_key_field(self, data, SchemaClass):
         pk_name = SchemaClass.get_primary_key_name()
         data[pk_name] = uuid.uuid4().hex[:8]

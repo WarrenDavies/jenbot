@@ -14,6 +14,7 @@ class Jenbot(BaseBot):
 
 
     def _get_system_prompt(self) -> str:
+
         return {
             "role": "system",
             "content": """You are Jenbot, an expert, helpful, and diligent assistant.

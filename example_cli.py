@@ -19,7 +19,7 @@ while True:
     user_input = input("You: ")
     if user_input.lower() in {"exit", "quit"}:
         break
-
+    print()
     payload = {"content": user_input}
 
     response = orchestrator.process(payload)

@@ -36,5 +36,4 @@ class BaseBot(ABC):
 
     @abstractmethod
     def generate():
-
         pass
