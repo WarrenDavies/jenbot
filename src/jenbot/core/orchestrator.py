@@ -35,7 +35,7 @@ class Orchestrator():
 
         tool_response = self.toolkit.use_tool(intent)
         if tool_response:
-            tool_response_system_prompt = self.response_generator.create_tool_use_prompt(
+            tool_response_system_prompt = self.bot.create_tool_use_prompt(
                 tool_response
             )
             self.record_manager.save_record(tool_response_system_prompt, "messages")

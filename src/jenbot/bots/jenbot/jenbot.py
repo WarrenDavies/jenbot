@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import textwrap
 
 from jenbot.bots.base.base_bot import BaseBot
 
