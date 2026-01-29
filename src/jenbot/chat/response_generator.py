@@ -22,10 +22,10 @@ class ResponseGenerator:
 
     def generate(self, prompt):
 
-        reponse = "beep beep boop boop I'm replying"
+        response = "beep beep boop boop I'm replying"
         
         return {
             "role": "assistant",
-            "content": reponse
+            "content": response
         }
         

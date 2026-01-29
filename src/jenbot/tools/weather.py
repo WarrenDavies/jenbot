@@ -8,6 +8,7 @@ class WeatherTool:
 
     def __init__(self):
         self.name = "weather"
+        self.description = "Real-time weather updates pulled from the Open Meteo API."
 
 
     def run(self, parameters):
@@ -27,6 +28,7 @@ class WeatherTool:
         except requests.exceptions.RequestException as e:
             return {
                 "name": self.name,
+                "description": self.description,
                 "status": "failure",
                 "output": f"API request failed with exception: {e}"
             }
@@ -42,6 +44,7 @@ class WeatherTool:
 
         return {
             "name": self.name,
+            "description": self.description,
             "status": "success",
             "output": metrics_str
         }

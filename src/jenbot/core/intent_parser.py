@@ -1,5 +1,5 @@
-
-
+from textjenerator import registry
+import json
 
 class IntentParser():
     """
@@ -10,54 +10,66 @@ class IntentParser():
         """
         """
         self.config = config
-        self.generator = None # text_jenerator would be instantiated here
-        self.system_prompt = self._get_system_prompt()
+        self.load_generator()
 
 
-    def _get_system_prompt(self) -> str: # Move to config
-        return """You are an intent parser. Analyze the user input and return JSON.
+    def load_generator(self):
+        self.generator = registry.get_model_class(self.config["generator_config"])
+        self.generator.load()
 
-Available actions:
-- "music": Play music. Extract artist, song, genre if mentioned.
-- "image": Generate image. Extract the visual description.
-- "chat": General conversation (default fallback).
+
+    def _get_system_prompt(self, message) -> str: # Move to config
+        return f"""You are an intent parser. Analyze the user input and return JSON.
 
 Respond ONLY with valid JSON in this format:
-{
+{{
     "action": "<action_type>",
-    "confidence": <0.0-1.0>,
-    "parameters": {<action-specific params>}
-}
+    "parameters": <action-specific params>
+}}
 
-Examples:
-User: "Play some Taylor Swift"
-{"action": "music", "confidence": 0.95, "parameters": {"artist": "Taylor Swift"}}
+Available actions and examples:
+- "music": Play music to the user
+  - Parameters: artist, song, album, genre, mood
+  - Example:
+    - user input: Play Taylor Swift
+    - your response: {{"action": "music", "parameters": {{"artist": "Taylor Swift", "song": "", "album": "", "genre": "", "mood": ""}}}}
+- "weather": Gets weather reports and forecasts from the Open Meteo API
+  - Parameters: location (empty string if no specific city or country is mentioned)
+  - Example:
+    - user input: What's the weather like?
+    - your response: {{"action": "weather", "parameters": {{"location": ""}}}}
+- "chat": Anything else (default action)
+  - Parameters: no parameters - return empty dict
+  - Example:
+    - user input: Hi, how are you?
+    - your response: {{"action": "chat", "parameters": {{}}}}
 
-User: "What's the weather like?"
-{"action": "chat", "confidence": 0.9, "parameters": {"message": "What's the weather like?"}}
+Do not infer parameters using your knowledge - report only what is mentioned specifically in the user input.
 
-User: "Show me disk usage"
-{"action": "shell", "confidence": 0.85, "parameters": {"intent": "display disk usage", "suggested_command": "df -h"}}"""
+The input you must parse is:
+
+"{message}"
+
+Remember - you must only reply in the valid JSON formats described above."""
     
 
-    def get_action(self, message):
+    def create_prompt(self, message):
+        
+        system_prompt = {"role": "system", "content": self._get_system_prompt(message)}
+        
+        return [system_prompt]
+
+
+    def get_intent(self, message):
         """
         Primary method to parse input and return the identified action.
         """
+        prompt = self.create_prompt(message)
+        self.generator.config["messages"] = prompt
+        generator_output = self.generator.generate()
+        response = generator_output.batch[0].data
+        response = json.loads(response)
 
-        if "weather" in message:
-            intent = {
-                "action": "weather",
-                "parameters": {
-                    "location": "London"
-                }
-            }
-        else:
-            intent = {
-                "action": "None",
-                "parameters": {}
-            }
-
-        return intent
+        return response
 
 
