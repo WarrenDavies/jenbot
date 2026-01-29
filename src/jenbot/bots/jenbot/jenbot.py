@@ -31,10 +31,10 @@ class Jenbot(BaseBot):
         prompt = self.get_last_two_records("./data/messages.csv")
         self.generator.config["messages"] = prompt
         generator_output = self.generator.generate()
-        reponse = generator_output.batch[0].data
+        response = generator_output.batch[0].data
 
         return {
             "role": "assistant",
             "bot": self.config["name"],
-            "content": reponse,
+            "content": response,
         }

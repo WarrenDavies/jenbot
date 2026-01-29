@@ -17,7 +17,7 @@ class Orchestrator():
         """
         Initialises the orchestrator.
         """
-        self.intent_parser = IntentParser(config=None)
+        self.intent_parser = IntentParser(config=config["router"])
         self.response_generator = ResponseGenerator()
         self.storage_manager = StorageManager(config)
         self.record_manager = RecordManager(self.storage_manager, config)
@@ -29,7 +29,7 @@ class Orchestrator():
         message["role"] = "user"
         message_id = self.record_manager.save_record(message, "messages")
 
-        intent = self.intent_parser.get_action(message["content"])
+        intent = self.intent_parser.get_intent(message["content"])
         intent["message_id"] = message_id
         intent_id = self.record_manager.save_record(intent, "intent")
 
