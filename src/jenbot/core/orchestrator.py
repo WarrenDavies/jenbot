@@ -41,7 +41,8 @@ class Orchestrator():
             self.record_manager.save_record(tool_response_system_prompt, "messages")
 
         response = self.bot.generate(message)
+
         self.record_manager.save_record(response, "messages")
 
-        return response
+        return response["content"]
    

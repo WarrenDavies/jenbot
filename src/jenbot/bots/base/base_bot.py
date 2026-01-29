@@ -19,6 +19,7 @@ class BaseBot(ABC):
     def create_tool_use_prompt(self, tool_response):
         content = f"""TOOL USE RESULT 
         Tool name: {tool_response["name"]}
+        Tool description: {tool_response["description"]}
         Status: {tool_response["status"]} 
         Output: {tool_response["output"]}
                 
