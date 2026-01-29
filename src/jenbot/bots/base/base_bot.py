@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+import textwrap
 
 
 class BaseBot(ABC):
