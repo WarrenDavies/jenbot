@@ -2131,7 +2131,7 @@ optional = false
 python-versions = ">=3.10,<3.15"
 groups = ["main"]
 files = []
-develop = false
+develop = true
 
 [package.dependencies]
 basejenerator = {path = "../base-jenerator", develop = true}
@@ -2662,4 +2662,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.15"
-content-hash = "b2af3ab9b568a01647d075fe848080b45a6a9e7502df1eb0a86a6d41f0abcbe6"
+content-hash = "ff74b44e065d94447f542b05a047d6134d321659024957e997c80ed3779ae691"

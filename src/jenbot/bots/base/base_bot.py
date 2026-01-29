@@ -1,11 +1,19 @@
 from abc import ABC, abstractmethod
 import textwrap
 
+from textjenerator import registry
+
 
 class BaseBot(ABC):
 
     def __init__(self, config):
         self.config = config
+        self.load_generator()
+
+
+    def load_generator(self):
+        self.generator = registry.get_model_class(self.config["generator_config"])
+        self.generator.load()
 
     
     def create_tool_use_prompt(self, tool_response):
