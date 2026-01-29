@@ -35,5 +35,6 @@ class Jenbot(BaseBot):
 
         return {
             "role": "assistant",
-            "content": reponse
+            "bot": self.config["name"],
+            "content": reponse,
         }
