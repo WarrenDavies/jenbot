@@ -10,7 +10,7 @@ class MemoryManager():
     def retrieve_recent_conversation_history(
         self,
         conversation_id,
-        
+        number_of_messages
     ):
         """
         Get `number_of_messages` messages from the conversation
