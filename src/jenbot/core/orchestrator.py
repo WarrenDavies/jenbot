@@ -6,6 +6,7 @@ from jenbot.storage.record_manager import RecordManager
 from jenbot.core.intent_parser import IntentParser
 from jenbot.tools.toolkit import Toolkit
 from jenbot.chat.response_generator import ResponseGenerator
+from jenbot.schemas.registry import REGISTRY as schema_registry
 
 from jenbot.bots.jenbot.jenbot import Jenbot
 
@@ -19,7 +20,7 @@ class Orchestrator():
         """
         self.intent_parser = IntentParser(config=config["router"])
         self.response_generator = ResponseGenerator()
-        self.storage_manager = StorageManager(config)
+        self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
         self.bot = Jenbot(config["bot"])
