@@ -26,24 +26,33 @@ class Orchestrator():
         self.bot = Jenbot(config["bot"])
 
 
+    def save_record(self, data, dataset_name):
+        record, primary_key = self.record_manager.create_record(
+            data,
+            dataset_name
+        )
+        self.storage_manager.data_connection.append_data(dataset_name, record)
+        return primary_key
+
+
     def process(self, message):
         message["role"] = "user"
-        message_id = self.record_manager.save_record(message, "messages")
+        message_id = self.save_record(message, "messages")
 
         intent = self.intent_parser.get_intent(message["content"])
         intent["message_id"] = message_id
-        intent_id = self.record_manager.save_record(intent, "intent")
+        intent_id = self.save_record(intent, "intent")
 
         tool_response = self.toolkit.use_tool(intent)
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
                 tool_response
             )
-            self.record_manager.save_record(tool_response_system_prompt, "messages")
+            self.save_record(tool_response_system_prompt, "messages")
 
         response = self.bot.generate(message)
 
-        self.record_manager.save_record(response, "messages")
+        self.save_record(response, "messages")
 
         return response["content"]
    
