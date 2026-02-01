@@ -9,6 +9,7 @@ from jenbot.schemas.registry import register
 class IntentSchema(BaseModel):
     intent_id: str = ""
     message_id: str = ""
+    record_created_time: str = ""
     action: str = ""
     parameters: Dict[str, Any] = {}
 
