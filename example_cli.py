@@ -20,7 +20,10 @@ while True:
     if user_input.lower() in {"exit", "quit"}:
         break
     print()
-    payload = {"content": user_input}
+    payload = {
+        "conversation_id": "New Chat", 
+        "content": user_input
+    }
 
     response = orchestrator.process(payload)
 

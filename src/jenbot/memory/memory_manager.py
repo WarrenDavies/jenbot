@@ -1,23 +1,41 @@
+from pydantic import BaseModel
+
+from jenbot.storage import queries
 
 
 class MemoryManager():
 
-    def __init__(self, storage_manager, record_manager):
+    def __init__(self, config, storage_manager, record_manager):
+        self.config = config
         self.storage_manager = storage_manager
         self.record_manager = record_manager
 
 
-    def retrieve_recent_conversation_history(
+    def get_recent_messages(
         self,
-        conversation_id,
-        number_of_messages
+        conversation_id
     ):
         """
         Get `number_of_messages` messages from the conversation
         with the specified, `conversation_id`
         (now)
         """
-        pass
+
+        class Params(BaseModel):
+            conversation_id: str
+            limit: int = 10
+
+        params = Params(**{
+            "conversation_id": conversation_id,
+            "limit": self.config["max_messages_in_context"]
+        })
+        
+        values = tuple(getattr(params, field) for field in params.model_fields)
+        query = queries.get_recent_messages()
+        
+        query_result = self.storage_manager.data_connection.execute(query, values)
+
+        return query_result
 
 
     def retrieve_conversation_summaries(

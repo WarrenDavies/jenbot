@@ -8,7 +8,7 @@ from jenbot.schemas.registry import register
 @register("messages")
 class MessagesSchema(BaseModel):
     message_id: str = ""
-    conversation_id: str = "Test"
+    conversation_id: str = "Default"
     record_created_time: str = ""
     role: str = ""
     content: str = ""
@@ -17,6 +17,3 @@ class MessagesSchema(BaseModel):
     @staticmethod
     def get_primary_key_name():
         return "message_id"
-
-
-    
