@@ -1,13 +1,6 @@
-data_connections:
-  conversations:
-    output_data_type: "csv"
-    data_source_location: "./data/conversations.csv"
-  messages:
-    output_data_type: "csv"
-    data_source_location: "./data/messages.csv"
-  intent:
-    output_data_type: "csv"
-    data_source_location: "./data/intent.csv"
+data_connection:
+  output_data_type: "sqlite3"
+  data_source_location: "./data/jenbot_db.sqlite"
 
 router:
   generator_config:
