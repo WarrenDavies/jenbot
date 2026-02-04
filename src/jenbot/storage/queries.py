@@ -13,7 +13,7 @@ def get_recent_messages():
             WHERE conversation_id = ?
             ORDER BY record_created_time DESC
             LIMIT ?
-        ) as messages
+        ) as recent
         order by record_created_time asc
     """
 

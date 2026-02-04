@@ -21,16 +21,7 @@ class MemoryManager():
         (now)
         """
 
-        class Params(BaseModel):
-            conversation_id: str
-            limit: int = 10
-
-        params = Params(**{
-            "conversation_id": conversation_id,
-            "limit": self.config["max_messages_in_context"]
-        })
-        
-        values = tuple(getattr(params, field) for field in params.model_fields)
+        values = (conversation_id, self.config["max_messages_in_context"])
         query = queries.get_recent_messages()
         
         query_result = self.storage_manager.data_connection.execute(query, values)
