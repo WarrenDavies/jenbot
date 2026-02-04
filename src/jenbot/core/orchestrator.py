@@ -19,11 +19,10 @@ class Orchestrator():
         Initialises the orchestrator.
         """
         self.intent_parser = IntentParser(config=config["router"])
-        self.response_generator = ResponseGenerator()
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
-        self.bot = Jenbot(config["bot"])
+        self.bot = Jenbot(config["bot"], self.storage_manager, self.record_manager)
 
 
     def save_record(self, data, dataset_name):
@@ -46,12 +45,11 @@ class Orchestrator():
         tool_response = self.toolkit.use_tool(intent)
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
-                tool_response
+                tool_response, message
             )
             self.save_record(tool_response_system_prompt, "messages")
 
         response = self.bot.generate(message)
-
         self.save_record(response, "messages")
 
         return response["content"]

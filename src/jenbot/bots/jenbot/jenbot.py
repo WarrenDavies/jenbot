@@ -3,15 +3,16 @@ import textwrap
 import csv
 
 from jenbot.bots.base.base_bot import BaseBot
+from jenbot.memory.memory_manager import MemoryManager
 
 
 class Jenbot(BaseBot):
 
 
-    def __init__(self, config):
+    def __init__(self, config, storage_manager, record_manager):
         super().__init__(config)
-        self.messages_to_keep_in_context = 6
-
+        self.memory_manager = MemoryManager(config["memory"], storage_manager, record_manager)
+        self.memory_config = {}
 
     def _get_system_prompt(self) -> str:
 
@@ -25,7 +26,7 @@ You have access to the following tools:
 * Weather - gets the current weather by accessing the Meteo API
 * Music - plays music on the user's computer
 
-When you have used a tool, the result will be available to you in a "system" message labelled TOOL_USE_RESULT. You should incorporate this information into your response to the user.
+You can tell the user about these tools, but the user will have to request them before you can use them, you can't call them yourself directly.
 """
         }
 
@@ -43,20 +44,20 @@ When you have used a tool, the result will be available to you in a "system" mes
         return last_n_records
 
  
-    def generate(self, prompt):
+    def generate(self, message):
         prompt = [self._get_system_prompt()]
-        prompt.extend(
-            self.get_last_n_records(
-                "./data/messages.csv",
-                self.messages_to_keep_in_context
-            )
-        )
+
+        recent_messages = self.memory_manager.get_recent_messages(message["conversation_id"])
+
+        prompt.extend(recent_messages)
+
         self.generator.config["messages"] = prompt
         generator_output = self.generator.generate()
         response = generator_output.batch[0].data
 
         return {
             "role": "assistant",
+            "conversation_id": message["conversation_id"],
             "bot": self.config["name"],
             "content": response,
         }

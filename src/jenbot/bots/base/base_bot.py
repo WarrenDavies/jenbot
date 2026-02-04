@@ -16,7 +16,7 @@ class BaseBot(ABC):
         self.generator.load()
 
     
-    def create_tool_use_prompt(self, tool_response):
+    def create_tool_use_prompt(self, tool_response, message):
         content = f"""TOOL USE RESULT 
         Tool name: {tool_response["name"]}
         Tool description: {tool_response["description"]}
@@ -29,7 +29,11 @@ class BaseBot(ABC):
         content = '\n'.join(content_stripped)
         content = textwrap.dedent(content)
 
-        tool_use_system_prompt = {"role": "system", "content": content}
+        tool_use_system_prompt = {
+            "role": "system", 
+            "content": content,
+            "conversation_id": message["conversation_id"]
+        }
 
         return tool_use_system_prompt
 

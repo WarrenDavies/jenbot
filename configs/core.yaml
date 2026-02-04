@@ -32,6 +32,8 @@ bot:
     temperature: .8 
     top_p: 0.9
     top_k: 10
+  memory:
+    max_messages_in_context: 7
 
 
 user:
