@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 import textwrap
 import csv
+import datetime
+
+
+from speechjenerator.registry import get_model_class
 
 from jenbot.bots.base.base_bot import BaseBot
 from jenbot.memory.memory_manager import MemoryManager
@@ -13,6 +17,29 @@ class Jenbot(BaseBot):
         super().__init__(config)
         self.memory_manager = MemoryManager(config["memory"], storage_manager, record_manager)
         self.memory_config = {}
+        self.speech_generator = self.setup_tts()
+
+    
+    def setup_tts(self):
+
+        if "tts" in self.config:
+            tts_model = get_model_class(self.config["tts"]["generator_config"])
+            return tts_model
+
+        return None
+        
+
+    def speak(self, text):
+        if "tts" not in self.config:
+            return
+
+        self.speech_generator.config["text"] = text
+        output = self.speech_generator.generate()
+        speech = output.batch[0]
+        ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+        speech.play(self.config["tts"]["output_path"] + "/" + ts + ".mp3")
+
 
     def _get_system_prompt(self) -> str:
 

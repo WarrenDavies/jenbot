@@ -2,6 +2,10 @@ data_connection:
   output_data_type: "sqlite3"
   data_source_location: "./data/jenbot_db.sqlite"
 
+output_folders:
+  tts: "./outputs/tts/"
+
+
 router:
   generator_config:
     model: "llama-cpp"
@@ -34,7 +38,12 @@ bot:
     top_k: 10
   memory:
     max_messages_in_context: 7
-
+  tts:
+    output_path: "./outputs/audio"
+    generator_config:
+      model: "gtts"
+      text: ""
+      lang: "en"
 
 user:
   location:
