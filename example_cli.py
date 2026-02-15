@@ -21,7 +21,7 @@ while True:
         break
     print()
     payload = {
-        "conversation_id": "mem_test3", 
+        "conversation_id": "mem_test4", 
         "content": user_input
     }
 

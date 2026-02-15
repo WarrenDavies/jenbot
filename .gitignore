@@ -1,3 +1,11 @@
+outputs/*
+!outputs/.gitkeep
+
+outputs/audio/*
+!outputs/audio/
+!outputs/audio/.gitkeep
+
+
 data/*
 !data/.gitkeep
 

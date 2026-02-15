@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 import textwrap
 import csv
+import datetime
+
+
+from speechjenerator.registry import get_model_class
 
 from jenbot.bots.base.base_bot import BaseBot
 from jenbot.memory.memory_manager import MemoryManager
@@ -13,6 +17,7 @@ class Jenbot(BaseBot):
         super().__init__(config)
         self.memory_manager = MemoryManager(config["memory"], storage_manager, record_manager)
         self.memory_config = {}
+
 
     def _get_system_prompt(self) -> str:
 
