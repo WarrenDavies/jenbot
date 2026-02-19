@@ -6,7 +6,7 @@ authors = [{name = "Warren Davies"}]
 homepage = "https://github.com/WarrenDavies/jenbot"
 repository = "https://github.com/WarrenDavies/jenbot"
 readme = "README.md"
-requires-python = ">=3.10,<3.15"
+requires-python = ">=3.10,<3.13"
 packages = [{include = "jenbot", from = "src"}]
 
 classifiers = [
@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.15"
+python = ">=3.10,<3.13"
 llama-cpp-python = ">=0.3.16,<0.4.0"
 fastapi = {extras = ["standard"], version = "^0.128.0"}
 requests = "^2.32.5"

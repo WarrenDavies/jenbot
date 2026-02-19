@@ -20,7 +20,6 @@ class Jenbot(BaseBot):
 
 
     def _get_system_prompt(self) -> str:
-
         return {
             "role": "system",
             "content": """You are Jenbot, an expert, helpful, and diligent assistant.
@@ -29,7 +28,6 @@ You provide the user with accurate answers to their queries. You are polite, fri
 
 You have access to the following tools:
 * Weather - gets the current weather by accessing the Meteo API
-* Music - plays music on the user's computer
 
 You can tell the user about these tools, but the user will have to request them before you can use them, you can't call them yourself directly.
 """
