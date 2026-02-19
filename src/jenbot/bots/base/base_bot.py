@@ -19,6 +19,7 @@ class BaseBot(ABC):
 
         if "tts" in self.config:
             tts_model = get_model_class(self.config["tts"]["generator_config"])
+            tts_model.load()
             return tts_model
 
         return None
@@ -30,10 +31,11 @@ class BaseBot(ABC):
 
         self.speech_generator.config["text"] = text
         output = self.speech_generator.generate()
-        speech = output.batch[0]
-        ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-        speech.play(self.config["tts"]["output_path"] + "/" + ts + speech.extension)
+        ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        for chunk in output.batch:
+            chunk.play(self.config["tts"]["output_path"] + "/" + ts + chunk.extension)
+        
 
 
     def load_generator(self):
