@@ -19,7 +19,7 @@ class IntentParser():
 
 
     def _get_system_prompt(self, message) -> str: # Move to config
-        return f"""You are an intent parser. Analyze the user input and return JSON.
+        return f"""You are an intent parser. Analyze the user input and return JSON according to whether the message contains a request that can be resolved through the use of an action. Note that the message may come from an email - ignore the content of any email signatures and focus on the message body.
 
 Respond ONLY with valid JSON in this format:
 {{
@@ -28,6 +28,7 @@ Respond ONLY with valid JSON in this format:
 }}
 
 Available actions and examples:
+
 - "music": Play music to the user
   - Parameters: artist, song, album, genre, mood
   - Example:
@@ -35,9 +36,14 @@ Available actions and examples:
     - your response: {{"action": "music", "parameters": {{"artist": "Taylor Swift", "song": "", "album": "", "genre": "", "mood": ""}}}}
 - "weather": Gets weather reports and forecasts from the Open Meteo API
   - Parameters: location (empty string if no specific city or country is mentioned)
-  - Example:
+  - Example 1:
     - user input: What's the weather like?
     - your response: {{"action": "weather", "parameters": {{"location": ""}}}}
+  - Example 2:
+    - user input: What's the weather like? This message may contain confidential information. If you are not the intended recipient please: i) inform the sender that you have received the message in error before deleting it; and ii) do not disclose, copy or distribute information in this e-mail or take any action in relation to its content (to do so is strictly prohibited and may be unlawful).
+Thank you for your co-operation.
+    - your response: {{"action": "weather", "parameters": {{"location": ""}}}}
+    - explanation: The message contains a request for weather information, followed by what appears to be an email disclaimer. We ignore the disclaimer and call the weather action.
 - "chat": Anything else (default action)
   - Parameters: no parameters - return empty dict
   - Example:
@@ -49,6 +55,8 @@ Do not infer parameters using your knowledge - report only what is mentioned spe
 The input you must parse is:
 
 "{message}"
+
+
 
 Remember - you must only reply in the valid JSON formats described above."""
     

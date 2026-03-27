@@ -8,7 +8,9 @@ from jenbot.tools.toolkit import Toolkit
 from jenbot.chat.response_generator import ResponseGenerator
 from jenbot.schemas.registry import REGISTRY as schema_registry
 
+from jenbot.bots.roastbot.roastbot import Roastbot
 from jenbot.bots.jenbot.jenbot import Jenbot
+
 
 class Orchestrator():
     """
