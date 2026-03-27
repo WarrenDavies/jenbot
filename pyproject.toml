@@ -26,6 +26,8 @@ speechjenerator = {path = "../speechjenerator", develop = true}
 textjenerator = {path = "../text-jenerator", develop = true}
 audiorecorder = {path = "../audio-recorder", develop = true}
 sttjenerator = {path = "../stt-jenerator", develop = true}
+email-reply-parser = "^0.5.12"
+python-dotenv = "^1.2.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
