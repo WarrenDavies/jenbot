@@ -10,6 +10,7 @@ from jenbot.schemas.registry import REGISTRY as schema_registry
 
 from jenbot.bots.roastbot.roastbot import Roastbot
 from jenbot.bots.jenbot.jenbot import Jenbot
+from jenbot.bots.interview_bot import InterviewBot
 
 
 class Orchestrator():
@@ -24,7 +25,7 @@ class Orchestrator():
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
-        self.bot = Jenbot(config["bot"], self.storage_manager, self.record_manager)
+        self.bot = InterviewBot(config["bot"], self.storage_manager, self.record_manager)
 
 
     def save_record(self, data, dataset_name):
