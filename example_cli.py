@@ -11,7 +11,7 @@ from sttjenerator.models import registry
 from jenbot.core.orchestrator import Orchestrator
  
 
-with open("configs/core.yaml", 'r') as stream:
+with open("configs/interview.yaml", 'r') as stream:
     core_config = yaml.safe_load(stream)
 
 stt_config = {
@@ -44,7 +44,7 @@ while True:
         break
     print()
     payload = {
-        "conversation_id": "stt_test", 
+        "conversation_id": "abcdefghijkllgg", 
         "content": user_input
     }
 
