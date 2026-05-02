@@ -3,7 +3,6 @@ import textwrap
 import csv
 import datetime
 import random
-import time
 
 from speechjenerator.registry import get_model_class
 
@@ -84,12 +83,12 @@ class InterviewBot(BaseBot):
 
 
     def create_question_prompt(self):
-        
+
         question_prompt = f"""Here is the competency for your next question:
 
         {self.competencies[self.current_question]["sub-competency"]}
 
-        Generate one clear, specific, competency-based interview question based on this. Start with 'Give me an example of a time when...' or similar. No extra text, no acknowledgments.
+        Generate one clear, specific, competency-based interview question based on this. Start with 'Give me an example of a time when...' or similar.
         """
         return question_prompt
 
@@ -110,7 +109,6 @@ class InterviewBot(BaseBot):
 
     def mark_current_question_asked(self):
         self.competencies[self.current_question]["status"] = "asked"
-
  
 
     def generate(self, message):
