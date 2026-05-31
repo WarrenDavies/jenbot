@@ -31,13 +31,15 @@ audio_recorder_config = {
 audio_recorder = AudioRecorder(audio_recorder_config)
 
 print("*** Chat — type 'exit' to quit. ***\n")
+conversation_id = "ambient"
 while True:
 
 
     if orchestrator.bot.mode == "ambient":
         user_input = input("You: ")
-        response = orchestrator.process_ambient_mode()
-
+        conversation_id = orchestrator.process_ambient_mode()
+        if conversation_id == "ambient":
+            continue
 
     user_input = input("You: ")
     if user_input == "":
@@ -51,11 +53,11 @@ while True:
         break
     print()
     payload = {
-        "conversation_id": "ambient", 
+        "conversation_id": conversation_id, 
         "content": user_input
     }
 
-    response = orchestrator.process_ambient_mode()
+    response = orchestrator.process(payload)
 
     print(core_config["bot"]["name"] + ":", response)
     print("\n")

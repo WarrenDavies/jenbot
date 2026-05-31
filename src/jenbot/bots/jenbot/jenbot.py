@@ -56,7 +56,11 @@ Actions you can take:
 
 {self.ambient_mode_actions_prompt}
 
-Reply with the name of an action ONLY. Reply "skip" to do nothing.
+To use an action, reply ONLY in json format:
+
+{{"action": <name_of_action>}}
+
+Reply with the "skip" action to do nothing.
 """
         }
 
