@@ -13,7 +13,10 @@ class BaseBot(ABC):
         self.config = config
         self.load_generator()
         self.speech_generator = self.setup_tts()
-
+        self.mode = None
+        self.status = None
+        self.ambient_mode_actions = None
+        self.ambient_mode_actions_prompt = None
     
     def setup_tts(self):
 
@@ -44,13 +47,20 @@ class BaseBot(ABC):
 
     
     def create_tool_use_prompt(self, tool_response, message):
+
+        if self.mode != "ambient":
+            message_suffix = "Include the details of the tool use in your response in a natural way to answer the user's previous query."
+        else:
+            message_suffix = ""
+
         content = f"""TOOL USE RESULT 
-        Tool name: {tool_response["name"]}
-        Tool description: {tool_response["description"]}
-        Status: {tool_response["status"]} 
-        Output: {tool_response["output"]}
-                
-        Include the details of the tool use in your response in a natural way to answer the user's previous query."""
+            Tool name: {tool_response["name"]}
+            Tool description: {tool_response["description"]}
+            Status: {tool_response["status"]} 
+            Output: {tool_response["output"]}
+
+            {message_suffix}        
+        """
         
         content_stripped = [line.lstrip() for line in content.splitlines()]
         content = '\n'.join(content_stripped)

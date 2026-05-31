@@ -25,7 +25,7 @@ class Orchestrator():
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
-        self.bot = InterviewBot(config["bot"], self.storage_manager, self.record_manager)
+        self.bot = Jenbot(config["bot"], self.storage_manager, self.record_manager)
 
 
     def save_record(self, data, dataset_name):
@@ -38,6 +38,7 @@ class Orchestrator():
 
 
     def process(self, message):
+
         message["role"] = "user"
         message_id = self.save_record(message, "messages")
 
@@ -58,4 +59,66 @@ class Orchestrator():
         self.bot.speak(response["content"])
 
         return response["content"]
-   
+
+
+    def process_ambient_mode(self):
+        
+        
+        if self.bot.status == "waiting":
+            message = self.bot._get_ambient_mode_prompt()
+            message["role"] = "system"
+            message["conversation_id"] = "ambient"
+            print(message)
+            message_id = self.save_record(message, "messages")
+            
+            response = self.bot.generate(message)
+            print(response["content"])
+            message["content"] = response["content"]
+            message["role"] = "assistant"
+            print(message)
+            message_id = self.save_record(message, "messages")
+
+            if response["content"] in self.bot.ambient_mode_actions:
+
+                if response["content"] == "message_user":
+                    self.bot.mode = "chat"
+                    self.bot.status = "active"
+                    response = self.bot.generate(message)
+                    self.save_record(response, "messages")
+                    self.bot.speak(response["content"])
+                    return
+
+                intent = {
+                    "action": self.bot.ambient_mode_actions[response["content"]],
+                    "parameters": {}
+                }
+                tool_response = self.toolkit.use_tool(intent)
+                print(tool_response)
+                tool_response_system_prompt = self.bot.create_tool_use_prompt(
+                    tool_response, message
+                )
+                print(tool_response_system_prompt)
+                message["role"] = "system"
+                self.save_record(tool_response_system_prompt, "messages")
+            
+            
+            # self.bot.status = "active"
+            
+
+        message = {}
+        message["role"] = "assistant"
+        message["conversation_id"] = "ambient"
+        response = self.bot.generate(message)
+        
+
+        # self.save_record(response, "messages")
+
+        # if response in self.bot.ambient_mode_actions:
+        #     tool_response = self.toolkit.use_tool(intent)
+        #     if tool_response:
+        #         tool_response_system_prompt = self.bot.create_tool_use_prompt(
+        #             tool_response, message
+        #         )
+        #         self.save_record(tool_response_system_prompt, "messages")
+        
+

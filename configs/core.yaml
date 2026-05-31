@@ -38,6 +38,8 @@ bot:
     top_k: 40
   memory:
     max_messages_in_context: 7
+  mode: "ambient"
+  status: "waiting"
   tts:
     output_path: "./outputs/audio"
     generator_config:

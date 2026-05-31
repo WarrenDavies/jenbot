@@ -8,6 +8,8 @@ from speechjenerator.registry import get_model_class
 
 from jenbot.bots.base.base_bot import BaseBot
 from jenbot.memory.memory_manager import MemoryManager
+from jenbot.tools import registry
+
 
 
 class Jenbot(BaseBot):
@@ -17,7 +19,16 @@ class Jenbot(BaseBot):
         super().__init__(config)
         self.memory_manager = MemoryManager(config["memory"], storage_manager, record_manager)
         self.memory_config = {}
-
+        self.ambient_mode_actions = {
+            "check_system_info": "get_system_info",
+            "get_weather_info": "weather",
+            "message_user": "message_user",
+        }
+        self.ambient_mode_actions_prompt = (
+            "\n".join([action for action in self.ambient_mode_actions])
+        )
+        self.mode = self.config["mode"]
+        self.status = self.config["status"]
 
     def _get_system_prompt(self) -> str:
         return {
@@ -32,6 +43,23 @@ You have access to the following tools:
 You can tell the user about these tools, but the user will have to request them before you can use them, you can't call them yourself directly.
 """
         }
+
+
+    def _get_ambient_mode_prompt(self) -> str:
+        return {
+            "role": "system",
+            "content": f"""You are Jenbot, an expert, helpful, and diligent assistant.
+
+You are in ambient mode. You are not currently in conversation with the user. You may make your own decision and take any action you desire. You will receive this prompt every 10 minutes.
+
+Actions you can take:
+
+{self.ambient_mode_actions_prompt}
+
+Reply with the name of an action ONLY. Reply "skip" to do nothing.
+"""
+        }
+
 
     def get_last_n_records(self, csv_file_path, n):
         last_n_records = []
