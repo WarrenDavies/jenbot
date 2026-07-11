@@ -26,13 +26,14 @@ def generate_image(message):
     image_generator = registry.get_model_class(config.image_config)
     image_generator.generate_image()
 
-print("""       __           __          __ 
+splash = r"""       __           __          __ 
       / /__  ____  / /_  ____  / /_
  __  / / _ \/ __ \/ __ \/ __ \/ __/
 / /_/ /  __/ / / / /_/ / /_/ / /_  
 \____/\___/_/ /_/_.___/\____/\__/  v1.0
 
-""")                          
+"""
+print(splash)                          
 print("*** Chat — type 'exit' to quit. ***\n")
 
 while True:

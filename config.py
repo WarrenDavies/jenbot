@@ -77,8 +77,8 @@ bot = bots["jenbot"]
 
 
 if image_config:
-bot["system_prompt"]["content"] = bot["system_prompt"]["content"] + """
-You can generate images if requested. To do so, use the command IMAGE on a new line, followed by the prompt. For example: 
-IMAGE <your prompt>            
-The image and the prompt need to be on the same line. You prompt should be a comma separated list of visual features. Use no more than 10.
-"""
+    bot["system_prompt"]["content"] = bot["system_prompt"]["content"] + """
+    You can generate images if requested. To do so, use the command IMAGE on a new line, followed by the prompt. For example: 
+    IMAGE <your prompt>            
+    The image and the prompt need to be on the same line. You prompt should be a comma separated list of visual features. Use no more than 10.
+    """
