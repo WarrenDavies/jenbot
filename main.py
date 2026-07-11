@@ -3,6 +3,7 @@ import os
 from textual.app import App, ComposeResult
 from textual.containers import VerticalScroll
 from textual.widgets import Static, TextArea
+from textual import events
 from llama_cpp import Llama
 
 from imagejenerator.models import registry
@@ -39,6 +40,20 @@ splash = r"""       __           __          __
 """
 
 
+class ChatInput(TextArea):
+
+    def _on_key(self, event: events.Key) -> None:
+        if event.key == "enter":
+            event.prevent_default()
+            self.app.action_submit_message()
+            return
+
+        if (event.key == "ctrl+j") or (event.key == "alt+enter"):
+            self.insert("\n")
+            event.prevent_default()
+            return
+
+
 class ChatApp(App):
     def __init__(self):
         super().__init__()
@@ -72,18 +87,36 @@ class ChatApp(App):
         margin: 0 0 1 0;
     }
     """
-
-    BINDINGS = [
-        ("ctrl+enter", "submit_message", "Send"),
-    ]
+    def on_mount(self) -> None:
+        self.query_one(ChatInput).focus()
 
     def compose(self) -> ComposeResult:
         yield Static(splash, id="header")
         yield VerticalScroll(
-            Static("Hi! Paste or type a message, Ctrl+Enter to submit.\n- type IMAGE <prompt> to generate image or ask Jenbot to do it. image_config must be defined and a diffusion model available locally at image_config['model_path'].\n- Ctrl+q to exit", classes="message"),
+            Static("Hi!\n- paste or type a message into the box below\n- Enter to submit.\n- ctrl+j for new line. alt+enter may work in some terminals\n- type IMAGE <prompt> to generate image (or ask Jenbot to do it).\n  - image_config must be defined in config, and a diffusion model available at image_config['model_path'].\n- Ctrl+q to exit", classes="message"),
             id="chat-container"
         )
-        yield TextArea("", id="input")
+        yield ChatInput("", id="input")
+
+
+    def check_action(self, action: str, parameters: tuple) -> bool | None:
+        """Runs BEFORE any action triggers. Perfect for hijacking keys."""
+        chat_box = self.query_one("#input", TextArea)
+
+        if self.focused == chat_box:
+            # If Enter is pressed, run submission and STOP TextArea from getting it
+            if action == "submit_message":
+                self.action_submit_message()
+                return False  # Cancels the default widget handling entirely!
+
+            # If Ctrl+J is pressed, insert newline and block default behavior
+            if action == "insert_newline":
+                chat_box.insert("\n")
+                return False  # Cancels default behavior
+
+        # Let all other actions and focus states pass through completely normally
+        return True
+
 
     def action_submit_message(self) -> None:
         chat = self.query_one("#chat-container", VerticalScroll)
@@ -132,7 +165,7 @@ class ChatApp(App):
         self.messages.append({"role": "assistant", "content": output_text})
 
         # to keep responses faster, limit the number of messages we put in the context
-        if len(messages) > config.messages_to_keep_in_context:
+        if len(self.messages) > config.messages_to_keep_in_context:
             if config.messages_to_keep_in_context == 0:
                 self.messages = [config.bot["system_prompt"]]
             else:
