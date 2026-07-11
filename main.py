@@ -17,8 +17,6 @@ llm = Llama(
 
 messages = [config.bot["system_prompt"]]
 messages_all = [config.bot["system_prompt"]]
-print("*** Chat — type 'exit' to quit. ***\n")
-
 
 def generate_image(message):
     print("generating image")
@@ -28,18 +26,28 @@ def generate_image(message):
     image_generator = registry.get_model_class(config.image_config)
     image_generator.generate_image()
 
+print("""       __           __          __ 
+      / /__  ____  / /_  ____  / /_
+ __  / / _ \/ __ \/ __ \/ __ \/ __/
+/ /_/ /  __/ / / / /_/ / /_/ / /_  
+\____/\___/_/ /_/_.___/\____/\__/  v1.0
+
+""")                          
+print("*** Chat — type 'exit' to quit. ***\n")
+
 while True:
     user_input = input("You: ")
     if user_input.lower() in {"exit", "quit"}:
         break
 
-    if user_input[0:5] == "IMAGE":
-        try:
-            generate_image(user_input)
-            continue
-        except Exception as e:
-            print("failed: ", e)
-            continue
+    if config.image_config:
+        if user_input[0:5] == "IMAGE":
+            try:
+                generate_image(user_input)
+                continue
+            except Exception as e:
+                print("failed: ", e)
+                continue
 
     # keep track of user input
     messages.append({"role": "user", "content": user_input})
