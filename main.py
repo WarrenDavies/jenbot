@@ -1,5 +1,6 @@
 import os
 
+from textual.widgets import Markdown
 from textual.app import App, ComposeResult
 from textual.containers import VerticalScroll
 from textual.widgets import Static, TextArea
@@ -125,13 +126,15 @@ class ChatApp(App):
         user_input = input_box.text.strip()
         if not user_input:
             return
-        chat.mount(Static(f"[bold #FF13F0]You:[/] {user_input}\n", classes="message"))
+
+        chat.mount(Static(f"[bold #FF13F0]You:[/]"))
+        chat.mount(Markdown(f"{user_input}\n\n", classes="message"))
 
         if config.image_config:
             if user_input[0:5] == "IMAGE":
                 try:
                     generate_image(user_input)
-                    chat.mount(Static(f"Image generated, see outputs folder", classes="message"))
+                    chat.mount(Static(f"Image generated, see outputs folder\n\n", classes="message"))
                     return
                 except Exception as e:
                     print("failed: ", e)
@@ -172,8 +175,8 @@ class ChatApp(App):
                 self.messages = [config.bot["system_prompt"]] + self.messages[-config.messages_to_keep_in_context:]
 
 
-        
-        chat.mount(Static(f"[bold cyan]{config.bot['name']}[/]: {output_text}\n\n"))
+        chat.mount(Static(f"[bold cyan]{config.bot['name']}[/]: "))
+        chat.mount(Markdown(f"{output_text}\n\n"))
 
         input_box.text = ""
         chat.scroll_end(animate=False)
