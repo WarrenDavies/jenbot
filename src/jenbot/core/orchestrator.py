@@ -25,7 +25,7 @@ class Orchestrator():
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
         self.toolkit = Toolkit()
-        self.bot = InterviewBot(config["bot"], self.storage_manager, self.record_manager)
+        self.bot = Jenbot(config["bot"], self.storage_manager, self.record_manager)
 
 
     def save_record(self, data, dataset_name):
