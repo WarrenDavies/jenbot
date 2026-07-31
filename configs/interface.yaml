@@ -1,0 +1,8 @@
+stt:
+  model: faster_whisper
+  model_path: medium
+  audio: inputs/example.wav
+  warmup: true
+
+audio_recorder:
+  sd_default_device: 7
