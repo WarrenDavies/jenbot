@@ -21,7 +21,7 @@ router:
     top_k: 10
 
 bot:
-  name: "Jenbot"
+  name: "jenbot"
   generator_config:
     backend: "transformers"
     model_name: "meta-llama/Llama-3.2-3B-Instruct"

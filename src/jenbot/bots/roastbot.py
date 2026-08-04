@@ -6,10 +6,12 @@ import datetime
 
 from speechjenerator.registry import get_model_class
 
-from jenbot.bots.base.base_bot import BaseBot
+from jenbot.bots.base_bot import BaseBot
 from jenbot.memory.memory_manager import MemoryManager
+from jenbot.bots.registry import register
 
 
+@register("roastbot")
 class Roastbot(BaseBot):
 
 
