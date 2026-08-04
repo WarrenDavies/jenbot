@@ -28,27 +28,6 @@ bot:
     interviewer_role: "CEO and Chief Inventor"
     organisation: "Stank Industries"
     vacancy: "Innovation assistant"
-    # competencies:
-    #   Problem Solving and Decision Making:
-    #     - "Break down ambiguous problems into structured components, identifying key constraints and assumptions."
-    #     - "Evaluate multiple solution options, considering trade-offs such as time, cost, and risk."
-    #     - "Make decisions using a combination of data, experience, and sound judgment."
-    #     - "Adapt problem-solving approaches when new information or changing conditions arise."
-    #   Technical Implementation and Quality:
-    #     - "Design and implement solutions that are robust, maintainable, and aligned with requirements."
-    #     - "Apply appropriate tools, frameworks, or methodologies based on the context of the task."
-    #     - "Ensure quality through testing, validation, and attention to edge cases."
-    #     - "Identify and address technical debt or inefficiencies in existing systems."
-    #   Communication and Stakeholder Engagement:
-    #     - "Explain complex ideas clearly to both technical and non-technical audiences."
-    #     - "Ask effective questions to clarify requirements and uncover hidden needs."
-    #     - "Tailor communication style depending on audience, context, and level of detail required."
-    #     - "Incorporate feedback from stakeholders to refine solutions and approach."
-    #   Ownership and Delivery:
-    #     - "Take responsibility for tasks from initiation through to completion."
-    #     - "Prioritise work effectively to meet deadlines and manage competing demands."
-    #     - "Proactively identify risks or blockers and take steps to mitigate them."
-    #     - "Reflect on outcomes to identify improvements for future work."
     competencies:
       Problem Solving and Decision Making:
         - "Engineer functional cold-fusion arc reactors in high-stress environments (e.g., caves) using literal boxes of scraps."
