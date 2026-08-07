@@ -27,3 +27,16 @@ def read_item(message: dict):
     """
     response = textwrap.dedent(response)
     return response
+
+
+@app.post("/get_messages")
+def read_item(message: dict):
+
+    conversation_id = message["conversation_id"]
+    number_of_messages = message.get("number_of_messages")
+    
+    response = orchestrator.bot.memory_manager.get_recent_messages(
+        conversation_id,
+        number_of_messages
+    )
+    return response

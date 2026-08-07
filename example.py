@@ -21,6 +21,20 @@ def send_prompt(payload, url):
     return data
 
 
+payload = {
+    "conversation_id": "test1234",
+    "number_of_messages": 10,
+}
+url = "http://127.0.0.1:8000/get_messages"
+headers = {"Authorization": "Bearer YOUR_TOKEN", "Content-Type": "application/json"}
+output = send_prompt(payload, url)
+
+for message in output:
+    print(message)
+
+
+
+
 while True:
     user_input = input("You: ")
     if user_input.lower() in {"exit", "quit"}:
