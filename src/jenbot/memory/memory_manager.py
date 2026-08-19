@@ -14,7 +14,7 @@ class MemoryManager():
     def get_recent_messages(
         self,
         conversation_id,
-        number_of_messages = -1
+        number_of_messages = None
     ):
         """
         Get `number_of_messages` messages from the conversation
@@ -22,8 +22,11 @@ class MemoryManager():
         (now)
         """
 
-        if number_of_messages == -1:
-            number_of_messages = self.config["max_messages_in_context"]
+        if number_of_messages is None:
+            number_of_messages = self.config.get(
+                "max_messages_in_context",
+                10
+            )
 
         values = (conversation_id, number_of_messages)
         query = queries.get_recent_messages()
