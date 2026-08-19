@@ -5,8 +5,8 @@ import json
 import requests
 
 
-messages = [config.bot["system_prompt"]]
-messages_all = [config.bot["system_prompt"]]
+conversation_id = "test1234"
+
 print("*** Chat — type 'exit' to quit. ***\n")
 
 def send_prompt(payload, url):
@@ -22,7 +22,7 @@ def send_prompt(payload, url):
 
 
 payload = {
-    "conversation_id": "test1234",
+    "conversation_id": conversation_id,
     "number_of_messages": 10,
 }
 url = "http://127.0.0.1:8000/get_messages"
@@ -30,8 +30,8 @@ headers = {"Authorization": "Bearer YOUR_TOKEN", "Content-Type": "application/js
 output = send_prompt(payload, url)
 
 for message in output:
-    print(message)
-
+    print(message["role"] + ":", message["content"])
+    print("\n\n\n")
 
 
 
@@ -40,27 +40,16 @@ while True:
     if user_input.lower() in {"exit", "quit"}:
         break
 
-    # keep track of user input
-    current_message = {"role": "user", "content": user_input}
-    messages.append(current_message)
-
-    payload = {"messages": messages}
+    payload = {
+        "conversation_id": conversation_id, 
+        "content": user_input
+    }
     # call the API endpoint and generate output
     url = "http://127.0.0.1:8000/input"
     headers = {"Authorization": "Bearer YOUR_TOKEN", "Content-Type": "application/json"}
     output = send_prompt(payload, url)
 
-    # keep track of bot responses
-    messages.append({"role": "assistant", "content": output})
-
-    # to keep responses faster, limit the number of messages we put in the context
-    if len(messages) > config.messages_to_keep_in_context:
-        if config.messages_to_keep_in_context == 0:
-            messages = [config.bot["system_prompt"]]
-        else:
-            messages = [config.bot["system_prompt"]] + messages[-config.messages_to_keep_in_context:]
-
     # Display response
-    print("\n")
+    print("\n\n\n")
     print(config.bot["name"] + ":", output)
-    print("\n")
+    print("\n\n\n")
