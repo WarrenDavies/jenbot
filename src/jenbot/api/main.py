@@ -16,13 +16,14 @@ app = FastAPI()
 orchestrator = Orchestrator(core_config)
 
 @app.post("/input")
-def read_item(message: dict):
-    last_message = message["messages"][-1]["content"]
+def read_item(payload: dict):
+    payload["source"] = "api"
+    message = payload["content"]
     current_time_string = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    response = orchestrator.process(message)
+    response = orchestrator.process(payload)
     response = f"""
     The time is: {current_time_string}
-    Your input was: {last_message}
+    Your input was: {message}
     Response: {json.dumps(response)}
     """
     response = textwrap.dedent(response)

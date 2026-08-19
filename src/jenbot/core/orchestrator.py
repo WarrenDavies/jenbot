@@ -60,7 +60,8 @@ class Orchestrator():
         response = self.bot.generate(message)
         self.save_record(response, "messages")
 
-        self.bot.speak(response["content"])
+        if message["source"] != "api":
+            self.bot.speak(response["content"])
 
         return response["content"]
    
