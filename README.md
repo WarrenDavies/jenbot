@@ -10,7 +10,7 @@ Jenbot Mk1 runs on CPU only, and in the terminal - no fancy-dancy UI to hog your
 
 Run Fast API to set up the endpoint
 ```sh
-fastapi dev src/jenbot/api/main.py 
+fastapi dev src/jenbot/interfaces/fastapi/main.py 
 ```
 
 
