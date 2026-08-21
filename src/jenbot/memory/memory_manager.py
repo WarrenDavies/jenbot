@@ -36,6 +36,16 @@ class MemoryManager():
         return query_result
 
 
+    def get_conversation_ids(
+        self,
+    ):
+        query = queries.get_conversation_ids()
+
+        query_result = self.storage_manager.data_connection.execute(query)
+
+        return query_result
+
+
     def retrieve_conversation_summaries(
         self, 
         number_of_messages, 
