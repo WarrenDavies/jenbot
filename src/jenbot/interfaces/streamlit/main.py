@@ -1,4 +1,5 @@
 import yaml
+import uuid
 
 import streamlit as st
 
@@ -12,6 +13,9 @@ from jenbot.core.orchestrator import Orchestrator
 with open("configs/core.yaml", 'r') as stream:
     core_config = yaml.safe_load(stream)
 
+with open("configs/interface.yaml", 'r') as stream:
+    interface_config = yaml.safe_load(stream)
+
 if "active_conversation_id" not in st.session_state:
     st.session_state.active_conversation_id = "test1234"
 
@@ -19,9 +23,6 @@ if "requested_conversation_id" not in st.session_state:
     st.session_state.requested_conversation_id = "test1234"
 
 number_of_messages = 100
-
-with open("configs/interface.yaml", 'r') as stream:
-    interface_config = yaml.safe_load(stream)
 
 
 ### set up
@@ -76,7 +77,6 @@ with st.sidebar:
 
         if st.sidebar.button(label, key=f"btn_{conversation_id}", use_container_width=True):
             st.session_state.requested_conversation_id = conversation_id
-            st.write(st.session_state.conversation_id)
             st.rerun()
 
 
