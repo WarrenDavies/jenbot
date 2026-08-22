@@ -100,7 +100,7 @@ if prompt := st.chat_input("Say something"):
 
     ### process input
     payload = {
-        "conversation_id": st.session_state.conversation_id, 
+        "conversation_id": st.session_state.active_conversation_id, 
         "content": prompt,
         "source": "api",
     }
