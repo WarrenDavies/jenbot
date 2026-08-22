@@ -24,13 +24,13 @@ def get_recent_messages():
 def get_conversation_ids():
 
     query = """
-        select conversation_id, latest_message_date, message_count
+        select conversation_id, latest_message_ts, message_count
         from (
-            SELECT conversation_id, max(record_created_time) latest_message_date, count(conversation_id) message_count -- row_number() over (partition by conversation_id order by record_created_time desc) rn
+            SELECT conversation_id, max(record_created_time) latest_message_ts, count(conversation_id) message_count -- row_number() over (partition by conversation_id order by record_created_time desc) rn
             FROM messages
             group by conversation_id
         ) as recent
-        order by latest_message_date desc
+        order by latest_message_ts desc
     """
 
     return query
