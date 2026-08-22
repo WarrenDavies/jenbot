@@ -17,10 +17,10 @@ with open("configs/interface.yaml", 'r') as stream:
     interface_config = yaml.safe_load(stream)
 
 if "active_conversation_id" not in st.session_state:
-    st.session_state.active_conversation_id = "test1234"
+    st.session_state.active_conversation_id = str(uuid.uuid4())
 
 if "requested_conversation_id" not in st.session_state:
-    st.session_state.requested_conversation_id = "test1234"
+    st.session_state.requested_conversation_id = st.session_state.active_conversation_id
 
 number_of_messages = 100
 
@@ -64,6 +64,12 @@ st.title("Jenbot")
 
 
 with st.sidebar:
+
+    st.markdown("## Jenbot")
+
+    if st.sidebar.button("New Chat", key=f"New Chat", use_container_width=True):
+        st.session_state.requested_conversation_id = str(uuid.uuid4())
+        st.rerun()
 
     st.markdown("### 💬 Chats")
 
