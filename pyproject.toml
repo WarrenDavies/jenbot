@@ -19,11 +19,12 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
 llama-cpp-python = ">=0.3.16,<0.4.0"
-fastapi = {extras = ["standard"], version = "^0.128.0"}
+fastapi = {extras = ["standard"], version = "^0.139.2"}
 requests = "^2.32.5"
 jenerationutils = {path = "../jeneration-utils", develop = true}
 speechjenerator = {path = "../speechjenerator", develop = true}
 textjenerator = {path = "../text-jenerator", develop = true}
+imagejenerator = {path = "../image-jenerator", develop = true}
 audiorecorder = {path = "../audio-recorder", develop = true}
 sttjenerator = {path = "../stt-jenerator", develop = true}
 email-reply-parser = "^0.5.12"
