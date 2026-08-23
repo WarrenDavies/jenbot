@@ -54,7 +54,11 @@ class Orchestrator():
         print(intent)
         print(self.toolkit.tools)
         tool_response = self.toolkit.use_tool(intent)
+        print("TOOL RESPONSE")
         print(tool_response)
+        if "artifacts" in tool_response:
+            for artifact in tool_response["artifacts"]:
+                self.save_record(artifact, "artifacts")
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
                 tool_response, message

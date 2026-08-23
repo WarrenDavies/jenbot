@@ -34,3 +34,15 @@ def get_conversation_ids():
     """
 
     return query
+
+
+def get_message_artifacts():
+
+    query = """
+        select path
+        from artifacts
+        where message_id = ?
+        order by record_created_time
+    """
+
+    return query

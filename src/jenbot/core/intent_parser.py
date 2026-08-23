@@ -89,6 +89,7 @@ Remember - you must only reply in the valid JSON formats described above."""
         self.generator.config["messages"] = prompt
         generator_output = self.generator.generate()
         response = generator_output.batch[0].data
+        print(response)
         response = json.loads(response)
 
         return response
