@@ -22,7 +22,8 @@ class Orchestrator():
         self.intent_parser = IntentParser(config=config["router"])
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
-        self.toolkit = Toolkit()
+        tools_config = config.get("tools")
+        self.toolkit = Toolkit(tools_config)
         self.bot = self.load_bot(config)
         
 
@@ -49,7 +50,6 @@ class Orchestrator():
         intent = self.intent_parser.get_intent(message["content"])
         intent["message_id"] = message_id
         intent_id = self.save_record(intent, "intent")
-
         tool_response = self.toolkit.use_tool(intent)
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
