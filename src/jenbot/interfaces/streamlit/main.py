@@ -114,7 +114,7 @@ if prompt := st.chat_input("Say something"):
     payload = {
         "conversation_id": st.session_state.active_conversation_id, 
         "content": prompt,
-        "source": "api",
+        "source": "web",
     }
     response = orchestrator.process(payload)
     st.session_state.messages.append({

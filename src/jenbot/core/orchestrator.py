@@ -49,8 +49,12 @@ class Orchestrator():
 
         intent = self.intent_parser.get_intent(message["content"])
         intent["message_id"] = message_id
+        intent["parameters"]["message"] = message
         intent_id = self.save_record(intent, "intent")
+        print(intent)
+        print(self.toolkit.tools)
         tool_response = self.toolkit.use_tool(intent)
+        print(tool_response)
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
                 tool_response, message
@@ -60,7 +64,7 @@ class Orchestrator():
         response = self.bot.generate(message)
         self.save_record(response, "messages")
 
-        if message.get("source") != "api":
+        if message.get("source") not in ["api", "web"]:
             self.bot.speak(response["content"])
 
         return response["content"]

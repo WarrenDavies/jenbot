@@ -4,6 +4,7 @@ data_connection:
 
 output_folders:
   tts: "./outputs/tts/"
+  images: &image_output_folder "./outputs/images/"
 
 router:
   generator_config:
@@ -62,9 +63,26 @@ generators:
     dtype: bfloat16
     prompts:
       - "e18aab"
-      
+    output_folder: "./outputs/images/"
+
 tools:
   weather: {}
+  image: 
+    model: dummy
+    model_path: ""
+    device: ""
+    enable_attention_slicing: true
+    scheduler: ""
+    height: 512
+    width: 512
+    num_inference_steps: 1
+    guidance_scale: 1
+    images_to_generate: 1
+    seeds: []
+    dtype: bfloat16
+    prompts:
+      - "e18aab"
+    output_folder: *image_output_folder
 
 user:
   location:
