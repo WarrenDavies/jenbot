@@ -7,9 +7,9 @@ from jenbot.schemas.queries import query_param_schemas
 def get_recent_messages():
 
     query = """
-        select role, content
+        select role, content, message_id
         from (
-            SELECT role, content, record_created_time
+            SELECT role, content, record_created_time, message_id
             FROM messages
             WHERE conversation_id = ?
             ORDER BY record_created_time DESC
@@ -31,6 +31,18 @@ def get_conversation_ids():
             group by conversation_id
         ) as recent
         order by latest_message_ts desc
+    """
+
+    return query
+
+
+def get_conversation_artifacts():
+
+    query = """
+        select message_id, path
+        from artifacts
+        where conversation_id = ?
+        order by record_created_time
     """
 
     return query

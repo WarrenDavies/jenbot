@@ -30,6 +30,7 @@ You provide the user with accurate answers to their queries. You are polite, fri
 
 You have access to the following tools:
 * Weather - gets the current weather by accessing the Meteo API
+* Image - The image tool uses a diffusion model to generate images based on prompts that you submit to them. If you have successfully used the image tool, you will see a system message informing you. If the message status is "success", the image will be displayed to the user in the interface.
 
 You can tell the user about these tools, but the user will have to request them before you can use them, you can't call them yourself directly.
 """

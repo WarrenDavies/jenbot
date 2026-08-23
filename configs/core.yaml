@@ -4,6 +4,7 @@ data_connection:
 
 output_folders:
   tts: "./outputs/tts/"
+  images: &image_output_folder "./outputs/images/"
 
 router:
   generator_config:
@@ -46,8 +47,41 @@ bot:
       lang: "a"
       voice: "af_heart"
 
+generators:
+  image:
+    model: "stable-diffusion-v1-5"
+    model_path: "runwayml/stable-diffusion-v1-5"
+    device: "cuda"
+    enable_attention_slicing: true
+    scheduler: "EulerDiscreteScheduler"
+    height: 512
+    width: 512
+    num_inference_steps: 15
+    guidance_scale: 8
+    images_to_generate: 1
+    seeds: []
+    dtype: bfloat16
+    prompts:
+      - "e18aab"
+    output_folder: "./outputs/images/"
+
 tools:
   weather: {}
+  image:
+    model: "stable-diffusion-v1-5"
+    model_path: "runwayml/stable-diffusion-v1-5"
+    device: "cuda"
+    enable_attention_slicing: true
+    scheduler: "EulerDiscreteScheduler"
+    height: 512
+    width: 512
+    num_inference_steps: 20
+    guidance_scale: 10
+    images_to_generate: 1
+    seeds: []
+    dtype: bfloat16
+    prompts: ["test"]
+    output_folder: *image_output_folder
 
 user:
   location:

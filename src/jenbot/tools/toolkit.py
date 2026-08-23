@@ -21,7 +21,7 @@ class Toolkit():
             return None
         tool_requested = intent["action"]
         if tool_requested and (tool_requested in self.tools):
-            tool_params = intent["parameters"]
+            tool_params = intent
             tool_response = self.tools[tool_requested].run(tool_params)
             return tool_response
         
