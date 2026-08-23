@@ -62,6 +62,9 @@ generators:
     dtype: bfloat16
     prompts:
       - "e18aab"
+      
+tools:
+  weather: {}
 
 user:
   location:
