@@ -6,7 +6,7 @@ from jenbot.tools.registry import register
 @register("weather")
 class WeatherTool:
 
-    def __init__(self):
+    def __init__(self, params):
         self.name = "weather"
         self.description = "Real-time weather updates pulled from the Open Meteo API."
 

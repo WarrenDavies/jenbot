@@ -46,6 +46,9 @@ bot:
       lang: "a"
       voice: "af_heart"
 
+tools:
+  weather: {}
+
 user:
   location:
     long: 51.53
