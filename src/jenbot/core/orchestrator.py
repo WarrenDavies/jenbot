@@ -51,14 +51,8 @@ class Orchestrator():
         intent["message_id"] = message_id
         intent["parameters"]["message"] = message
         intent_id = self.save_record(intent, "intent")
-        print(intent)
-        print(self.toolkit.tools)
         tool_response = self.toolkit.use_tool(intent)
-        print("TOOL RESPONSE")
-        print(tool_response)
-        if "artifacts" in tool_response:
-            for artifact in tool_response["artifacts"]:
-                self.save_record(artifact, "artifacts")
+
         if tool_response:
             tool_response_system_prompt = self.bot.create_tool_use_prompt(
                 tool_response, message
@@ -66,10 +60,19 @@ class Orchestrator():
             self.save_record(tool_response_system_prompt, "messages")
 
         response = self.bot.generate(message)
-        self.save_record(response, "messages")
-
+        response["bot_message_id"] = self.save_record(response, "messages")
+        response["user_message_id"] = message_id
+        response["artifacts"] = []
+        if (tool_response) and ("artifacts" in tool_response):
+            for artifact in tool_response["artifacts"]:
+                artifact["conversation_id"] = message["conversation_id"]
+                artifact["message_id"] = response["bot_message_id"]
+                self.save_record(artifact, "artifacts")
+                response["artifacts"].append({
+                    "message_id": artifact["message_id"],
+                    "path": artifact["path"],
+                })
         if message.get("source") not in ["api", "web"]:
             self.bot.speak(response["content"])
 
-        return response["content"]
-   
+        return response

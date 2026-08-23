@@ -48,14 +48,14 @@ Thank you for your co-operation.
   - Parameters: prompt: You must convert the user input into a prompt that can be passed to a diffusion model, and include this prompt in your JSON response. If the user input is very short such as just "a cat", "a boat", "a person", and does not specify a style or other details, please add extra details yourself.
   - Example 1:
     - user input: OK yes please make an image of a samurai in a rainy cyberpunk street
-    - your response: {{"action": "image", "parameters": {{"prompt": samurai, cyberpunk aesthetic, city street, neon lights, rainy, puddles, with reflections of neon""}}}}
+    - your response: {{"action": "image", "parameters": {{"prompt": "samurai, cyberpunk aesthetic, city street, neon lights, rainy, puddles, with reflections of neon"}}}}
   - Example 2:
     - user input: Oh yes I love chocolate. Make an image of a bowl of fruit in the style of an oil painting
-    - your response: {{"action": "image", "parameters": {{"prompt": bowl of fruit, oil painting style""}}}}
+    - your response: {{"action": "image", "parameters": {{"prompt": "bowl of fruit, oil painting style"}}}}
     - explanation: the "Oh yes I love chocolate" part is not part of the image generation request so it was not included in the prompt.
   - Example 3:
     - user input: Make an image of a cat
-    - your response: {{"action": "image", "parameters": {{"prompt": an orange cat, sitting on a windowsill, cartoon style""}}}}
+    - your response: {{"action": "image", "parameters": {{"prompt": "an orange cat, sitting on a windowsill, cartoon style"}}}}
     - explanation: The request did not specify any details other than 'a cat'. In cases like this, please add additional detail yourself."
 - "chat": Anything else (default action)
   - Parameters: no parameters - return empty dict
@@ -89,9 +89,7 @@ Remember - you must only reply in the valid JSON formats described above."""
         self.generator.config["messages"] = prompt
         generator_output = self.generator.generate()
         response = generator_output.batch[0].data
-        print(response)
+        
         response = json.loads(response)
 
         return response
-
-

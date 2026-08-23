@@ -30,17 +30,13 @@ class ImageGenerationTool:
         return image_generator
 
 
-    def _get_image_location_message(self, source):
-        image
-
-
-
     def run(self, intent):
 
         response = None
         artifact_records = []
-        self.generator.config["prompts"] = [intent["parameters"]["prompt"]]
+        self.generator.prompts = [intent["parameters"]["prompt"]]
         try:
+            self.generator.prepare()
             output = self.generator.generate()
             ts = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             for image in output.batch:

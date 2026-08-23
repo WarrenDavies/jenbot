@@ -10,6 +10,7 @@ from jenbot.schemas.registry import register
 class ArtifactSchema(BaseModel):
     artifact_id: str = ""
     message_id: str = ""
+    conversation_id: str = ""
     artifact_type: str = ""
     record_created_time: str = ""
     path: str = ""
