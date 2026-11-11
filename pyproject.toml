@@ -22,7 +22,7 @@ llama-cpp-python = ">=0.3.16,<0.4.0"
 fastapi = {extras = ["standard"], version = "^0.139.2"}
 requests = "^2.32.5"
 jenerationutils = "^0.2.0"
-speechjenerator = {path = "../speechjenerator", develop = true}
+speechjenerator = "^0.2.0"
 textjenerator = {path = "../text-jenerator", develop = true}
 imagejenerator = {path = "../image-jenerator", develop = true}
 audiorecorder = {path = "../audio-recorder", develop = true}
