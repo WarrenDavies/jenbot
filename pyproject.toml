@@ -24,7 +24,7 @@ requests = "^2.32.5"
 jenerationutils = "^0.2.0"
 speechjenerator = "^0.2.0"
 textjenerator = "^2.1.2"
-imagejenerator = {path = "../image-jenerator", develop = true}
+imagejenerator = "^2.2.0"
 audiorecorder = {path = "../audio-recorder", develop = true}
 sttjenerator = {path = "../stt-jenerator", develop = true}
 email-reply-parser = "^0.5.12"
