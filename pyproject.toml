@@ -21,7 +21,7 @@ python = ">=3.11,<3.13"
 llama-cpp-python = ">=0.3.16,<0.4.0"
 fastapi = {extras = ["standard"], version = "^0.139.2"}
 requests = "^2.32.5"
-jenerationutils = "^0.2.0"
+jenerationutils = "^0.2.1"
 speechjenerator = "^0.2.0"
 textjenerator = "^2.1.2"
 imagejenerator = "^2.2.0"
