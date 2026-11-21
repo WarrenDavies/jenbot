@@ -6,7 +6,7 @@ import base64
 
 import streamlit as st
 
-from audiorecorder.audio_recorder import AudioRecorder
+from audiograb.audio_recorder import AudioRecorder
 from sttjenerator.models import registry
 
 from jenbot.core.orchestrator import Orchestrator

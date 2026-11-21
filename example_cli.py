@@ -11,7 +11,7 @@ from textual.widgets import Static, TextArea
 from textual import events
 import requests
 
-from audiorecorder.audio_recorder import AudioRecorder
+from audiograb.audio_recorder import AudioRecorder
 from sttjenerator.models import registry
 
 from jenbot.core.orchestrator import Orchestrator
