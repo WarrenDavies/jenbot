@@ -44,7 +44,6 @@ class ConversationManager():
             "tags": ""
         }
         self.storage_manager.data_connection.append_data("conversations", record)
-        pass
 
 
     def rename_conversation(self):
