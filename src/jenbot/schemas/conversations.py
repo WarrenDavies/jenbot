@@ -7,7 +7,7 @@ class ConversationsSchema(BaseModel):
     conversation_id: str = ""
     conversation_title: str = ""
     title_source: str = ""
-    created_time: str = ""
+    record_created_time: str = ""
     updated_time: str = ""
     tags: str = ""
 
