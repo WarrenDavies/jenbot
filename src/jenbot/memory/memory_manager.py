@@ -11,41 +11,6 @@ class MemoryManager():
         self.record_manager = record_manager
 
 
-    def get_recent_messages(
-        self,
-        conversation_id,
-        number_of_messages = None
-    ):
-        """
-        Get `number_of_messages` messages from the conversation
-        with the specified, `conversation_id`
-        (now)
-        """
-
-        if number_of_messages is None:
-            number_of_messages = self.config.get(
-                "max_messages_in_context",
-                10
-            )
-
-        values = (conversation_id, number_of_messages)
-        query = queries.get_recent_messages()
-        
-        query_result = self.storage_manager.data_connection.execute(query, values)
-
-        return query_result
-
-
-    def get_conversation_ids(
-        self,
-    ):
-        query = queries.get_conversation_ids()
-
-        query_result = self.storage_manager.data_connection.execute(query)
-
-        return query_result
-
-
     def retrieve_conversation_summaries(
         self, 
         number_of_messages, 
