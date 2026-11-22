@@ -4,6 +4,7 @@ from jenerationutils.storage.storage_manager import StorageManager
 
 from jenbot.storage.record_manager import RecordManager
 from jenbot.core.intent_parser import IntentParser
+from jenbot.core.conversation_manager import ConversationManager
 from jenbot.tools.toolkit import Toolkit
 from jenbot.chat.response_generator import ResponseGenerator
 from jenbot.schemas.registry import REGISTRY as schema_registry
@@ -22,6 +23,7 @@ class Orchestrator():
         self.intent_parser = IntentParser(config=config["router"])
         self.storage_manager = StorageManager(config, schema_registry=schema_registry)
         self.record_manager = RecordManager(self.storage_manager, config)
+        self.conversation_manager = ConversationManager(self.storage_manager, self.record_manager)
         tools_config = config.get("tools")
         self.toolkit = Toolkit(tools_config)
         self.bot = self.load_bot(config)
@@ -76,3 +78,8 @@ class Orchestrator():
             self.bot.speak(response["content"])
 
         return response
+
+
+    def create_conversation(self):
+        conversation_metadata = self.conversation_manager.create_conversation()
+        return conversation_metadata

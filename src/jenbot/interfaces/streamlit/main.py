@@ -59,7 +59,7 @@ orchestrator = load_orchestrator(core_config)
 
 if "conversations" not in st.session_state:
     st.session_state.conversations = (
-        orchestrator.bot.memory_manager.get_conversation_ids()
+        orchestrator.conversation_manager.get_conversation_ids()
     )
 
 conversation_changed = (
@@ -70,7 +70,7 @@ if ("messages" not in st.session_state) or conversation_changed:
 
     st.session_state.active_conversation_id = st.session_state.requested_conversation_id
 
-    messages = orchestrator.bot.memory_manager.get_recent_messages(
+    messages = orchestrator.conversation_manager.get_recent_messages(
         st.session_state.active_conversation_id,
         number_of_messages
     )
@@ -97,7 +97,8 @@ with st.sidebar:
     st.markdown("## Jenbot")
 
     if st.sidebar.button("New Chat", key=f"New Chat", use_container_width=True):
-        st.session_state.requested_conversation_id = str(uuid.uuid4())
+        new_conversation_metadata = orchestrator.create_conversation()
+        st.session_state.requested_conversation_id = new_conversation_metadata["conversation_id"]
         st.rerun()
 
     st.markdown("### 💬 Chats")

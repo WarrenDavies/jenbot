@@ -14,9 +14,9 @@ SECOND_WORD = [ "Conversation", "Chat", "Chit chat", "Parlay", "Chin wag", "Natt
 
 class ConversationManager():
 
-    def __init__(record_manager):
+    def __init__(self, storage_manager, record_manager):
+        self.storage_manager = storage_manager
         self.record_manager = record_manager
-        pass
 
 
     def get_recent_messages(
@@ -38,7 +38,6 @@ class ConversationManager():
 
         values = (conversation_id, number_of_messages)
         query = queries.get_recent_messages()
-        
         query_result = self.storage_manager.data_connection.execute(query, values)
 
         return query_result
@@ -49,7 +48,7 @@ class ConversationManager():
     ):
         query = queries.get_conversation_ids()
 
-        query_result = self.storage_manager.data_connection.execute(query)
+        query_result = self.record_manager.storage_manager.data_connection.execute(query)
 
         return query_result
 
@@ -86,8 +85,8 @@ class ConversationManager():
             conversation_record_enriched
         )
         return {
-            conversation_id: primary_key_value,
-            title: title
+            "conversation_id": primary_key_value,
+            "title": title
         }
 
     def rename_conversation(self):
